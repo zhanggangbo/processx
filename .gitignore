@@ -1,0 +1,14 @@
+settings
+.iml
+.class
+.project
+target
+.classpath
+.log
+.settings
+deploy
+*.log
+logs
+*.bat
+_Store
+*/.idea/*
