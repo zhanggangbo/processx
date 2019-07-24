@@ -12,3 +12,7 @@ logs
 *.bat
 _Store
 */.idea/*
+
+.idea
+*.iml
+
