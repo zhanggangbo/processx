@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>processx</artifactId>
+    <groupId>com.github.processx</groupId>
+    <version>1.0.0</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.github.processx</groupId>
+  <artifactId>processx-test</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.github.processx</groupId>
+      <artifactId>processx-dal</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.github.processx</groupId>
+      <artifactId>processx-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.github.processx</groupId>
+      <artifactId>processx-common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.github.processx</groupId>
+      <artifactId>processx-manager</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.github.processx</groupId>
+      <artifactId>processx-console</artifactId>
+    </dependency>
+
+    <!-- 测试框架 -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+    </dependency>
+  </dependencies>
+
+
+
+
+</project>

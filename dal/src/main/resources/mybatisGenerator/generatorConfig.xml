@@ -1,51 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE generatorConfiguration
-        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
-        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <!-- 参考文档http://generator.sturgeon.mopaas.com/configreference/table.html -->
 <generatorConfiguration>
 
-    <properties resource="mybatisGenerator/generatorConfig.properties"></properties>
-    <context id="processx" targetRuntime="MyBatis3Simple" defaultModelType="flat">
-        <commentGenerator>
-            <property name="suppressAllComments" value="false"/>
-            <property name="suppressDate" value="true"/>
-        </commentGenerator>
+  <properties resource="mybatisGenerator/generatorConfig.properties"></properties>
+  <context id="processx" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+    <commentGenerator>
+      <property name="suppressAllComments" value="false"/>
+      <property name="suppressDate" value="true"/>
+    </commentGenerator>
 
-        <jdbcConnection driverClass="${jdbc.driverClass}"
-          connectionURL="${processx.jdbc.connectionURL}"
-          userId="${processx.jdbc.userId}"
-          password="${processx.jdbc.password}">
-        </jdbcConnection>
+    <jdbcConnection driverClass="${jdbc.driverClass}"
+      connectionURL="${processx.jdbc.connectionURL}"
+      userId="${processx.jdbc.userId}"
+      password="${processx.jdbc.password}">
+    </jdbcConnection>
 
-        <javaTypeResolver>
-            <property name="forceBigDecimals" value="false"/>
-        </javaTypeResolver>
+    <javaTypeResolver>
+      <property name="forceBigDecimals" value="false"/>
+    </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="${processx.package.do}" targetProject="src/main/java">
-            <property name="constructorBased" value="true"/>
-            <property name="enableSubPackages" value="false"/>
-            <property name="immutable" value="false"/>
-            <property name="trimStrings" value="true"/>
-        </javaModelGenerator>
+    <javaModelGenerator targetPackage="${processx.package.do}" targetProject="src/main/java">
+      <property name="constructorBased" value="true"/>
+      <property name="enableSubPackages" value="false"/>
+      <property name="immutable" value="false"/>
+      <property name="trimStrings" value="true"/>
+    </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="${processx.package.mapper}" targetProject="src/main/resources">
-            <property name="enableSubPackages" value="false"/>
-        </sqlMapGenerator>
+    <sqlMapGenerator targetPackage="${processx.package.mapper}" targetProject="src/main/resources">
+      <property name="enableSubPackages" value="false"/>
+    </sqlMapGenerator>
 
-        <javaClientGenerator targetPackage="${processx.package.dao}" targetProject="src/main/java" type="XMLMAPPER">
-            <property name="enableSubPackages" value="false"/>
-            <property name="exampleMethodVisibility" value="false"/>
-            <property name="methodNameCalculator" value="default"/>
-            <property name="rootInterface" value=""/>
-        </javaClientGenerator>
+    <javaClientGenerator targetPackage="${processx.package.dao}" targetProject="src/main/java"
+      type="XMLMAPPER">
+      <property name="enableSubPackages" value="false"/>
+      <property name="exampleMethodVisibility" value="false"/>
+      <property name="methodNameCalculator" value="default"/>
+      <property name="rootInterface" value=""/>
+    </javaClientGenerator>
 
-        <!-- dtprocessx tables -->
-        <table tableName="process" domainObjectName="ProcessDO">
-            <property name="rootInterface"
-                      value="com.github.processx.dal.daointerface.ProcessDOMapperBase"/>
-        </table>
+    <!-- dtprocessx tables -->
+    <table tableName="process" domainObjectName="ProcessDO">
+      <property name="rootInterface"
+        value="com.github.processx.dal.daointerface.ProcessDOMapperBase"/>
+    </table>
 
-    </context>
+  </context>
 
 </generatorConfiguration>

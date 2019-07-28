@@ -6,10 +6,31 @@
     <artifactId>processx</artifactId>
     <groupId>com.github.processx</groupId>
     <version>1.0.0</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>process-core</artifactId>
+  <groupId>com.github.processx</groupId>
+  <artifactId>processx-core</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.github.processx</groupId>
+      <artifactId>processx-dal</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.processx</groupId>
+      <artifactId>processx-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
+  </dependencies>
 
 
 </project>

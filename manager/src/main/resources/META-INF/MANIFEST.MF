@@ -1,0 +1,2 @@
+Module-Name: com.github.processx.manager
+Require-Module: com.github.processx.core

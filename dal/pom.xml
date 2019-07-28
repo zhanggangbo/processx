@@ -6,12 +6,37 @@
     <artifactId>processx</artifactId>
     <groupId>com.github.processx</groupId>
     <version>1.0.0</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
+  <groupId>com.github.processx</groupId>
   <artifactId>processx-dal</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+
+  <properties>
+    <mybatis.generator.configurationFile>
+      ${basedir}/src/main/resources/mybatisGenerator/generatorConfig.xml
+    </mybatis.generator.configurationFile>
+  </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>com.github.processx</groupId>
+      <artifactId>processx-common</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+    </dependency>
+
     <!-- dal层依赖 start-->
     <dependency>
       <groupId>com.github.pagehelper</groupId>
@@ -56,7 +81,6 @@
         <configuration>
           <verbose>true</verbose>
           <overwrite>true</overwrite>
-          <configurationFile>src/main/resources/mybatisGenerator/generatorConfig.xml</configurationFile>
         </configuration>
         <dependencies>
           <dependency>
