@@ -55,7 +55,7 @@ public class ProcessInstanceFactory {
       }
 
       for (NodeDefinition nodeDefinition : nodeDefinitionList) {
-        NodeInstance nodeInstance = createNodeInstance(bizNo, nodeDefinition, process);
+        NodeInstance nodeInstance = nodeInstanceMap.get(nodeDefinition.getNodeId());
         // 获取上一个节点信息
         List<Long> preNodeIdList = nodeDefinition.getPreNodeIdList();
         if (!BeanCheckUtil.checkNullOrEmpty(preNodeIdList)) {
@@ -64,9 +64,11 @@ public class ProcessInstanceFactory {
             List<NodeInstance> nextNodeIdList = preNodeInstance.getNextNodeInstanceList();
             nextNodeIdList.add(nodeInstance);
 
-            process.addNodeInstance(preNodeInstance);
+            List<NodeInstance> preNodeInstanceList = nodeInstance.getPreNodeInstanceList();
+            preNodeInstanceList.add(preNodeInstance);
           }
         }
+        process.addNodeInstance(nodeInstance);
       }
 
       for (Entry<Long, NodeInstance> entry : nodeInstanceMap.entrySet()) {
