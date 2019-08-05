@@ -6,19 +6,19 @@
 package com.github.processx.dal.log.interceptor;
 
 import com.github.processx.common.util.LoggerUtil;
+import java.lang.reflect.Method;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.util.StopWatch;
 
 /**
- * MyBatis数据库操作日志拦截输出
+ * 数据库操作日志拦截输出
  *
  * @author zhanggangbo
  * @version v 0.1 2019/7/28 21:29
  */
-public class MyBatisDalLogInterceptor implements MethodInterceptor {
+public class DalLogInterceptor implements MethodInterceptor {
 
   /** 日志记录 */
   private static final Logger LOGGER = LogManager.getLogger("common-dal-digest");
@@ -35,47 +35,24 @@ public class MyBatisDalLogInterceptor implements MethodInterceptor {
   @Override
   public Object invoke(MethodInvocation invocation) throws Throwable {
     Object result;
-    StopWatch clock = new StopWatch();
+
+    Method method = invocation.getMethod();
+    String interfaceName = method.getDeclaringClass().getName();
+    String methodName = method.getName();
+
+    long start = System.currentTimeMillis();
+
     try {
-      // 计时开始
-      clock.start();
       result = invocation.proceed();
-      String method =
-          invocation.getMethod().getDeclaringClass().getSimpleName()
-              + "."
-              + invocation.getMethod().getName();
-
+      long end = System.currentTimeMillis();
       LoggerUtil.info(
-          LOGGER,
-          "方法名:%s,执行时间:%s ms,参数:%s",
-          method,
-          clock.getTotalTimeMillis(),
-          getString(invocation.getArguments()));
-    } finally {
-      // 计时结束
-      clock.stop();
+          LOGGER, "{0},{1},{2},{3},{4}", "processx", interfaceName, methodName, "S", end - start);
+    } catch (Throwable throwable) {
+      long end = System.currentTimeMillis();
+      LoggerUtil.error(
+          LOGGER, "{0},{1},{2},{3},{4}", "processx", interfaceName, methodName, "F", end - start);
+      throw throwable;
     }
-
     return result;
-  }
-
-  /**
-   * 方法的参数输出
-   *
-   * @param objs 方法的参数数组
-   * @return 方法的参数字符串, 逗号隔开
-   */
-  private String getString(Object[] objs) {
-    String args = "";
-
-    if (objs != null && objs.length > 0) {
-      StringBuffer sb = new StringBuffer();
-      for (int i = 0; i < objs.length; i++) {
-        sb.append(objs[i]).append(",");
-      }
-      args = sb.substring(0, sb.length() - 1);
-    }
-
-    return args;
   }
 }

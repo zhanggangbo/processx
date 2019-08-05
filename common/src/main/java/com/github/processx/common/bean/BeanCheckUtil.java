@@ -1,9 +1,5 @@
-/**
- * GitHub. Inc.
- *
- * <p>Copyright (c) 2018-2019 All Rights Reserved.
- */
-package com.github.processx.core.util;
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
+package com.github.processx.common.bean;
 
 import java.util.Collection;
 import java.util.Map;

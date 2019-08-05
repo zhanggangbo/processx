@@ -2,75 +2,77 @@
 <!-- 设置log4j2的自身log级别为warn -->
 <!-- OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
 <configuration status="WARN" monitorInterval="30">
-    <appenders>
-        <console name="CONSOLE-APPENDER" target="SYSTEM_OUT">
-            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %t %m%n"/>
-        </console>
+  <appenders>
+    <console name="CONSOLE-APPENDER" target="SYSTEM_OUT">
+      <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %t %m%n"/>
+    </console>
 
-        <!--default 日志-->
-        <RollingFile name="DEFAULT-APPENDER" fileName="${sys:user.home}/logs/processx/common-default.log"
-                     filePattern="${sys:user.home}/logs/processx/common-default.log.%d{yyyy-MM-dd}">
-            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
-            <Filters>
-                <ThresholdFilter level="INFO"/>
-            </Filters>
-            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %t %m%n" charset="UTF-8"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy/>
-            </Policies>
-            <DefaultRolloverStrategy />
-        </RollingFile>
+    <!--default 日志-->
+    <RollingFile name="DEFAULT-APPENDER"
+      fileName="${sys:user.home}/logs/processx/common-default.log"
+      filePattern="${sys:user.home}/logs/processx/common-default.log.%d{yyyy-MM-dd}">
+      <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+      <Filters>
+        <ThresholdFilter level="INFO"/>
+      </Filters>
+      <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %t %m%n" charset="UTF-8"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+      </Policies>
+      <DefaultRolloverStrategy/>
+    </RollingFile>
 
-        <!--error 日志-->
-        <RollingFile name="ERROR-APPENDER" fileName="${sys:user.home}/logs/processx/common-error.log"
-                     filePattern="${sys:user.home}/logs/processx/common-error.log.%d{yyyy-MM-dd}">
-            <ThresholdFilter level="ERROR"/>
-            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %t %m%n" charset="UTF-8"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy/>
-            </Policies>
-            <DefaultRolloverStrategy/>
-        </RollingFile>
+    <!--error 日志-->
+    <RollingFile name="ERROR-APPENDER" fileName="${sys:user.home}/logs/processx/common-error.log"
+      filePattern="${sys:user.home}/logs/processx/common-error.log.%d{yyyy-MM-dd}">
+      <ThresholdFilter level="ERROR"/>
+      <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %t %m%n" charset="UTF-8"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+      </Policies>
+      <DefaultRolloverStrategy/>
+    </RollingFile>
 
-        <!--dal层日志-->
-        <RollingFile name="COMMON-DAL-APPENDER" fileName="${sys:user.home}/logs/processx/common-dal-digest.log"
-                     filePattern="${sys:user.home}/logs/processx/common-dal.log.%d{yyyy-MM-dd}">
-            <Filters>
-                <ThresholdFilter level="INFO"/>
-            </Filters>
-            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %t %m%n" charset="UTF-8"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy/>
-            </Policies>
-            <DefaultRolloverStrategy/>
-        </RollingFile>
+    <!--dal层日志-->
+    <RollingFile name="COMMON-DAL-APPENDER"
+      fileName="${sys:user.home}/logs/processx/common-dal-digest.log"
+      filePattern="${sys:user.home}/logs/processx/common-dal.log.%d{yyyy-MM-dd}">
+      <Filters>
+        <ThresholdFilter level="INFO"/>
+      </Filters>
+      <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %t %m%n" charset="UTF-8"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+      </Policies>
+      <DefaultRolloverStrategy/>
+    </RollingFile>
 
-    </appenders>
+  </appenders>
 
-    <loggers>
-        <!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
-        <logger name="org.springframework" level="INFO"></logger>
-        <logger name="org.mybatis" level="INFO"></logger>
+  <loggers>
+    <!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
+    <logger name="org.springframework" level="INFO"></logger>
+    <logger name="org.mybatis" level="INFO"></logger>
 
-        <!--如果不想遵循父类的Appender，可以加上additivity="false"参数。
-        如下配置，common-dal-digest的INFO以上日志将保存到文件中，并且不会打印到控制台。-->
-        <logger name="common-dal-digest" level="INFO" additivity="false">
-            <appender-ref ref="COMMON-DAL-APPENDER"/>
-            <appender-ref ref="ERROR-APPENDER"/>
-        </logger>
+    <!--如果不想遵循父类的Appender，可以加上additivity="false"参数。
+    如下配置，common-dal-digest的INFO以上日志将保存到文件中，并且不会打印到控制台。-->
+    <logger name="common-dal-digest" level="INFO" additivity="true">
+      <appender-ref ref="COMMON-DAL-APPENDER"/>
+      <appender-ref ref="ERROR-APPENDER"/>
+    </logger>
 
-        <logger name="com.github.processx" level="INFO" additivity="false">
-            <appender-ref ref="CONSOLE-APPENDER"/>
-            <appender-ref ref="DEFAULT-APPENDER"/>
-            <appender-ref ref="ERROR-APPENDER"/>
-        </logger>
+    <logger name="com.github.processx" level="INFO" additivity="false">
+      <appender-ref ref="CONSOLE-APPENDER"/>
+      <appender-ref ref="DEFAULT-APPENDER"/>
+      <appender-ref ref="ERROR-APPENDER"/>
+    </logger>
 
-        <root level="info">
-            <appender-ref ref="CONSOLE-APPENDER"/>
-            <appender-ref ref="DEFAULT-APPENDER"/>
-            <appender-ref ref="ERROR-APPENDER"/>
-        </root>
-    </loggers>
+    <root level="info">
+      <appender-ref ref="CONSOLE-APPENDER"/>
+      <appender-ref ref="DEFAULT-APPENDER"/>
+      <appender-ref ref="ERROR-APPENDER"/>
+    </root>
+  </loggers>
 
 </configuration>
 

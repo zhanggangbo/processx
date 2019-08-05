@@ -1,10 +1,7 @@
-/**
- * GitHub. Inc.
- *
- * <p>Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.common.util;
 
+import java.text.MessageFormat;
 import org.apache.logging.log4j.Logger;
 
 /**
@@ -27,7 +24,7 @@ public class LoggerUtil {
       if (null == args || args.length == 0) {
         logger.info(format);
       } else {
-        logger.info(String.format(format, args));
+        logger.info(MessageFormat.format(format, args));
       }
     }
   }
@@ -45,7 +42,7 @@ public class LoggerUtil {
       if (null == args || args.length == 0) {
         logger.info(format, e);
       } else {
-        logger.info(String.format(format, args), e);
+        logger.info(MessageFormat.format(format, args), e);
       }
     }
   }
@@ -62,7 +59,7 @@ public class LoggerUtil {
     if (null == args || args.length == 0) {
       logger.warn(format, e);
     } else {
-      logger.warn(String.format(format, args), e);
+      logger.warn(MessageFormat.format(format, args), e);
     }
   }
 
@@ -77,7 +74,7 @@ public class LoggerUtil {
     if (null == args || args.length == 0) {
       logger.warn(format);
     } else {
-      logger.warn(String.format(format, args));
+      logger.warn(MessageFormat.format(format, args));
     }
   }
 
@@ -92,7 +89,7 @@ public class LoggerUtil {
     if (null == args || args.length == 0) {
       logger.error(format);
     } else {
-      logger.error(String.format(format, args));
+      logger.error(MessageFormat.format(format, args));
     }
   }
 
@@ -108,7 +105,7 @@ public class LoggerUtil {
     if (null == args || args.length == 0) {
       logger.error(format, e);
     } else {
-      logger.error(String.format(format, args), e);
+      logger.error(MessageFormat.format(format, args), e);
     }
   }
 
@@ -124,7 +121,7 @@ public class LoggerUtil {
       if (null == args || args.length == 0) {
         logger.debug(format);
       } else {
-        logger.debug(String.format(format, args));
+        logger.debug(MessageFormat.format(format, args));
       }
     }
   }
@@ -142,7 +139,7 @@ public class LoggerUtil {
       if (null == args || args.length == 0) {
         logger.debug(format, e);
       } else {
-        logger.debug(String.format(format, args), e);
+        logger.debug(MessageFormat.format(format, args), e);
       }
     }
   }

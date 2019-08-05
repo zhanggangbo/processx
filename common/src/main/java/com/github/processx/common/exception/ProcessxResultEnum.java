@@ -1,8 +1,4 @@
-/**
- * GitHub. Inc.
- *
- * <p>Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.common.exception;
 
 import lombok.Getter;
@@ -30,6 +26,15 @@ public enum ProcessxResultEnum {
 
   /** 参数不正确 */
   ILLEGAL_ARGUMENT("ILLEGAL_ARGUMENT", "参数不正确"),
+
+  /** 流程信息不存在 */
+  PROCESS_DADA_NO_EXIST("PROCESS_DADA_NO_EXIST", "流程信息不存在"),
+
+  /** 获取指定名称bean实例失败 */
+  GET_BEAN_INSTANCE_FAIL("GET_BEAN_INSTANCE_FAIL", "获取指定名称bean实例失败"),
+
+  /** 流程节点类型不正确 */
+  ILLEGAL_PROCESS_NODE_TYPE("ILLEGAL_PROCESS_NODE_TYPE", "流程节点类型不正确"),
   ;
 
   /** 枚举编号 */

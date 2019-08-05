@@ -5,7 +5,6 @@
  */
 package com.github.processx.core.service.model;
 
-import com.github.processx.core.service.enums.NodeTypeEnum;
 import java.io.Serializable;
 import java.util.List;
 import lombok.Getter;
@@ -24,7 +23,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public class NodeDefinition implements Serializable {
 
   /** 节点ID */
-  private Long processNodeId;
+  private Long nodeId;
 
   /** 流程ID */
   private Long processId;
@@ -32,12 +31,8 @@ public class NodeDefinition implements Serializable {
   /** 流程节点名称 */
   private String name;
 
-  /**
-   * 流程节点类型；
-   *
-   * @see com.github.processx.core.service.enums.NodeTypeEnum
-   */
-  private NodeTypeEnum nodeType;
+  /** 流程节点类型 */
+  private Integer nodeType;
 
   /** 执行组件 */
   private String executeCompoment;

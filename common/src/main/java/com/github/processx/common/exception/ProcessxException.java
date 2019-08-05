@@ -1,8 +1,4 @@
-/**
- * GitHub. Inc.
- *
- * <p>Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.common.exception;
 
 import lombok.Getter;
@@ -96,25 +92,26 @@ public class ProcessxException extends RuntimeException {
   /**
    * 创建一个ProcessxException
    *
-   * @param resultCode 异常结果码
-   * @param resultMsg 异常结果信息
-   * @param cause 异常原因
+   * @param processxResultEnum
+   * @param expandMsg
+   * @param cause
    */
-  public ProcessxException(String resultCode, String resultMsg, Throwable cause) {
-    super(resultCode, cause);
-    this.resultCode = resultCode;
-    this.resultMsg = resultMsg;
+  public ProcessxException(
+      ProcessxResultEnum processxResultEnum, String expandMsg, Throwable cause) {
+    super(processxResultEnum.getCode(), cause);
+    this.resultCode = processxResultEnum.getCode();
+    this.resultMsg = processxResultEnum.getDescription() + "," + expandMsg;
   }
 
   /**
    * 创建一个ProcessxException
    *
-   * @param resultCode 异常结果码
+   * @param processxResultEnum 业务结果枚举
    * @param cause 异常原因
    */
-  public ProcessxException(ProcessxResultEnum resultCode, Throwable cause) {
-    super(resultCode.getCode(), cause);
-    this.resultCode = resultCode.getCode();
-    this.resultMsg = resultCode.getDescription();
+  public ProcessxException(ProcessxResultEnum processxResultEnum, Throwable cause) {
+    super(processxResultEnum.getCode(), cause);
+    this.resultCode = processxResultEnum.getCode();
+    this.resultMsg = processxResultEnum.getDescription();
   }
 }

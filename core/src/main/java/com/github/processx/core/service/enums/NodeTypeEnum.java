@@ -1,8 +1,4 @@
-/**
- * GitHub. Inc.
- *
- * <p>Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core.service.enums;
 
 import java.util.HashMap;

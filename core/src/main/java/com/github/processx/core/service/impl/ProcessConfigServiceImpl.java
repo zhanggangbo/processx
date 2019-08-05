@@ -1,16 +1,10 @@
-/**
- * GitHub. Inc.
- *
- * <p>Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core.service.impl;
 
 import com.github.processx.core.service.ProcessConfigService;
-import com.github.processx.core.service.enums.NodeTypeEnum;
 import com.github.processx.core.service.model.NodeDefinition;
 import com.github.processx.core.service.model.ProcessDefinition;
 import com.github.processx.core.service.model.ProcessFeature;
-import com.github.processx.core.util.BeanCheckUtil;
 import com.github.processx.dal.daointerface.ProcessDOMapper;
 import com.github.processx.dal.daointerface.ProcessNodeDOMapper;
 import com.github.processx.dal.dataobjects.ProcessDO;
@@ -61,30 +55,34 @@ public class ProcessConfigServiceImpl implements ProcessConfigService {
       processDefinitionMap.put(processDefinition.getProcessId(), processDefinition);
     }
 
-    for (ProcessNodeDO processNod : processNodeList) {
+    for (ProcessNodeDO processNode : processNodeList) {
       NodeDefinition nodeDefinition = new NodeDefinition();
-      nodeDefinition.setProcessNodeId(processNod.getId());
-      nodeDefinition.setProcessId(processNod.getProcessId());
-      nodeDefinition.setName(processNod.getName());
-      nodeDefinition.setNodeType(NodeTypeEnum.getNodeTypeEnumByType(processNod.getNodeType()));
-      nodeDefinition.setExecuteCompoment(processNod.getExecuteCompoment());
-      nodeDefinition.setIsSync(processNod.getIsSync());
-      nodeDefinition.setIsProtected(processNod.getIsProtected());
-      nodeDefinition.setMaxExeTime(processNod.getMaxExeTime());
-      nodeDefinition.setStage(processNod.getStage());
+      nodeDefinition.setNodeId(processNode.getId());
+      nodeDefinition.setProcessId(processNode.getProcessId());
+      nodeDefinition.setName(processNode.getName());
+      nodeDefinition.setNodeType(processNode.getNodeType());
+      nodeDefinition.setExecuteCompoment(processNode.getExecuteCompoment());
+      nodeDefinition.setIsSync(processNode.getIsSync());
+      nodeDefinition.setIsProtected(processNode.getIsProtected());
+      nodeDefinition.setMaxExeTime(processNode.getMaxExeTime());
+      nodeDefinition.setStage(processNode.getStage());
 
-      String[] preNodeIds = StringUtils.split(processNod.getPreNodeId(), ",");
-      List<Long> preNodeIdList = new ArrayList<>(preNodeIds.length);
-      for (int i = 0; i < preNodeIds.length; i++) {
-        preNodeIdList.add(Long.valueOf(preNodeIds[i]));
+      if (StringUtils.isNotBlank(processNode.getPreNodeId())) {
+        String[] preNodeIds = StringUtils.split(processNode.getPreNodeId(), ",");
+        List<Long> preNodeIdList = new ArrayList<>(preNodeIds.length);
+        for (int i = 0; i < preNodeIds.length; i++) {
+          preNodeIdList.add(Long.valueOf(preNodeIds[i]));
+        }
+        nodeDefinition.setPreNodeIdList(preNodeIdList);
       }
-      nodeDefinition.setPreNodeIdList(preNodeIdList);
 
-      ProcessDefinition processDefinition = processDefinitionMap.get(processNod.getProcessId());
+      ProcessDefinition processDefinition = processDefinitionMap.get(processNode.getProcessId());
       List<NodeDefinition> nodeDefinitionList = processDefinition.getNodeDefinitionList();
-      if (BeanCheckUtil.checkNullOrEmpty(nodeDefinitionList)) {
+      if (nodeDefinitionList == null) {
         nodeDefinitionList = new ArrayList<>();
+        processDefinition.setNodeDefinitionList(nodeDefinitionList);
       }
+
       nodeDefinitionList.add(nodeDefinition);
     }
 

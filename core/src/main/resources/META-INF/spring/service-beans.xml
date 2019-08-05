@@ -8,7 +8,10 @@
   <bean id="processConfigService"
     class="com.github.processx.core.service.impl.ProcessConfigServiceImpl"/>
 
-  <bean id="beanFactoryData" class="com.github.processx.core.BeanFactoryData"/>
+  <bean id="processLoader" class="com.github.processx.core.ProcessLoader"/>
+
+  <bean id="beanFactoryUtil" class="com.github.processx.core.util.BeanFactoryUtil"
+    factory-method="getInstance"/>
 
 </beans>
 
