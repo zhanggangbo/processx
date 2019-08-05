@@ -8,8 +8,6 @@ package com.github.processx.console.home.cntroller;
 
 import com.github.processx.core.ProcessInstance;
 import com.github.processx.core.ProcessInstanceFactory;
-import java.util.HashMap;
-import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,9 +25,9 @@ public class HelloController {
 
     String bizNo = "bizno20190804";
     String processName = "credit";
-    Map<String, String> param = new HashMap<>();
+    String version = "1";
 
-    ProcessInstance processInstance = ProcessInstanceFactory.create(bizNo, processName, param);
+    ProcessInstance processInstance = ProcessInstanceFactory.create(bizNo, processName, version);
     model.addAttribute("message", processInstance);
     return "index";
   }

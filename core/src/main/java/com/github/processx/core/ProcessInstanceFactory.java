@@ -1,16 +1,17 @@
 /** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core;
 
+import com.github.processx.api.Execution;
 import com.github.processx.common.bean.BeanCheckUtil;
 import com.github.processx.common.exception.ProcessxException;
 import com.github.processx.common.exception.ProcessxResultEnum;
 import com.github.processx.core.service.enums.NodeTypeEnum;
 import com.github.processx.core.service.model.NodeDefinition;
 import com.github.processx.core.service.model.ProcessDefinition;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * 流程实例创建工厂
@@ -24,13 +25,12 @@ public class ProcessInstanceFactory {
    *
    * @param bizNo 业务流水号
    * @param processName 流程名称
-   * @param param 业务入参
+   * @param version 版本号
    * @return 流程实例
    */
-  public static ProcessInstance create(
-      String bizNo, String processName, Map<String, String> param) {
+  public static ProcessInstance create(String bizNo, String processName, String version) {
     /** 获取指定流程信息 */
-    ProcessDefinition processDefinition = ProcessLoader.getProcessDefinition(processName);
+    ProcessDefinition processDefinition = ProcessLoader.getProcessDefinition(processName, version);
 
     /** 流程信息不存在 */
     if (processDefinition == null) {
@@ -44,57 +44,82 @@ public class ProcessInstanceFactory {
     process.setVersion(processDefinition.getVersion());
     process.setProcessFeature(processDefinition.getProcessFeature());
 
+    /** 获取流程节点 */
     List<NodeDefinition> nodeDefinitionList = processDefinition.getNodeDefinitionList();
-    for (NodeDefinition nodeDefinition : nodeDefinitionList) {
-      NodeInstance node = new NodeInstance();
-      // 获取上一个节点信息
-      List<Long> preNodeIdList = nodeDefinition.getPreNodeIdList();
+    if (!BeanCheckUtil.checkNullOrEmpty(nodeDefinitionList)) {
 
-      if (!BeanCheckUtil.checkNullOrEmpty(preNodeIdList)) {
-        for (Long processId : preNodeIdList) {
-          // 根据节点id获取节点信息
-          NodeDefinition preNodeDefinition = ProcessLoader.getNodeDefinition(processId);
-          node.setNodeId(preNodeDefinition.getNodeId());
-          node.setName(preNodeDefinition.getName());
-          node.setExecuteCompoment(preNodeDefinition.getExecuteCompoment());
-          node.setIsSync(preNodeDefinition.getIsSync());
-          node.setIsProtected(preNodeDefinition.getIsProtected());
-          node.setMaxExeTime(preNodeDefinition.getMaxExeTime());
+      Map<Long, NodeInstance> nodeInstanceMap = new HashMap<>(nodeDefinitionList.size());
+      for (NodeDefinition nodeDefinition : nodeDefinitionList) {
+        NodeInstance nodeInstance = createNodeInstance(bizNo, nodeDefinition, process);
+        nodeInstanceMap.put(nodeInstance.getNodeId(), nodeInstance);
+      }
 
-          NodeTypeEnum nodeTypeEnum =
-              NodeTypeEnum.getNodeTypeEnumByType(preNodeDefinition.getNodeType());
-          if (nodeTypeEnum == null) {
-            throw new ProcessxException(ProcessxResultEnum.ILLEGAL_PROCESS_NODE_TYPE);
+      for (NodeDefinition nodeDefinition : nodeDefinitionList) {
+        NodeInstance nodeInstance = createNodeInstance(bizNo, nodeDefinition, process);
+        // 获取上一个节点信息
+        List<Long> preNodeIdList = nodeDefinition.getPreNodeIdList();
+        if (!BeanCheckUtil.checkNullOrEmpty(preNodeIdList)) {
+          for (Long processId : preNodeIdList) {
+            NodeInstance preNodeInstance = nodeInstanceMap.get(processId);
+            List<NodeInstance> nextNodeIdList = preNodeInstance.getNextNodeInstanceList();
+            nextNodeIdList.add(nodeInstance);
+
+            process.addNodeInstance(preNodeInstance);
           }
-          node.setNodeType(nodeTypeEnum);
-
-          List<String> nextNodeIdList = node.getNextNodeIdList();
-          if (nextNodeIdList == null) {
-            nextNodeIdList = new ArrayList<>();
-            node.setNextNodeIdList(nextNodeIdList);
-          }
-          nextNodeIdList.add(nodeDefinition.getName());
-
-          Map<String, NodeInstance> nameNodeInstanceMap = process.getNameNodeInstanceMap();
-          if (nameNodeInstanceMap == null) {
-            nameNodeInstanceMap = new HashMap<>();
-            process.setNameNodeInstanceMap(nameNodeInstanceMap);
-          }
-          nameNodeInstanceMap.put(node.getName(), node);
         }
       }
 
-      /** 初始节点 */
-      if (BeanCheckUtil.checkNullOrEmpty(nodeDefinition.getPreNodeIdList()) && node.isAutoNode()) {
-        process.setStartNode(node);
-      }
+      for (Entry<Long, NodeInstance> entry : nodeInstanceMap.entrySet()) {
+        NodeInstance nodeInstance = entry.getValue();
+        List<NodeInstance> nextNodeInstanceList = nodeInstance.getNextNodeInstanceList();
+        if (BeanCheckUtil.checkNullOrEmpty(nextNodeInstanceList) && nodeInstance.isAutoNode()) {
+          nodeInstance.setEnd(true);
+        }
 
-      /** 结束节点 */
-      if (BeanCheckUtil.checkNullOrEmpty(node.getNextNodeIdList()) && node.isAutoNode()) {
-        process.setEndNode(node);
+        List<NodeInstance> preNodeInstanceList = nodeInstance.getPreNodeInstanceList();
+        if (BeanCheckUtil.checkNullOrEmpty(preNodeInstanceList) && nodeInstance.isAutoNode()) {
+          nodeInstance.setStart(true);
+          process.setStartNode(nodeInstance);
+        }
       }
     }
 
     return process;
+  }
+
+  /**
+   * 创建节点实例
+   *
+   * @param bizNo
+   * @param nodeDefinition
+   * @param process
+   * @return
+   */
+  private static NodeInstance createNodeInstance(
+      String bizNo, NodeDefinition nodeDefinition, ProcessInstance process) {
+    NodeInstance node = new NodeInstance();
+    node.setBizNo(bizNo);
+    node.setNodeId(nodeDefinition.getNodeId());
+    node.setProcessInstance(process);
+    node.setName(nodeDefinition.getName());
+    node.setStage(nodeDefinition.getStage());
+
+    NodeTypeEnum nodeTypeEnum = NodeTypeEnum.getNodeTypeEnumByType(nodeDefinition.getNodeType());
+    if (nodeTypeEnum == null) {
+      throw new ProcessxException(ProcessxResultEnum.ILLEGAL_PROCESS_NODE_TYPE);
+    }
+    node.setNodeType(nodeTypeEnum);
+
+    Execution execution =
+        ProcessLoader.getExecution(nodeTypeEnum, nodeDefinition.getExecuteCompoment());
+    if (execution == null) {
+      throw new ProcessxException(ProcessxResultEnum.EXECUTE_COMPOMENT_NO_EXIST);
+    }
+    node.setExecuteCompoment(execution);
+
+    node.setIsSync(nodeDefinition.getIsSync());
+    node.setIsProtected(nodeDefinition.getIsProtected());
+    node.setMaxExeTime(nodeDefinition.getMaxExeTime());
+    return node;
   }
 }

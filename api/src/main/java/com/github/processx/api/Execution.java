@@ -7,12 +7,4 @@ package com.github.processx.api;
  * @author zhanggangbo
  * @version v 0.1 2019/7/28 12:20
  */
-public interface Execution {
-  /**
-   * 节点执行方法
-   *
-   * @param context
-   * @return
-   */
-  //  NodeEvent execute(NodeContext context);
-}
+public interface Execution {}

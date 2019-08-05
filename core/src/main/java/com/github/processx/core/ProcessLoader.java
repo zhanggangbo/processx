@@ -43,14 +43,14 @@ public class ProcessLoader implements InitializingBean, DisposableBean, Applicat
   /** 流程配置服务接口 */
   @Autowired private ProcessConfigService processConfigService;
 
-  /** 流程缓存 */
+  /** 流程缓存 key：id */
+  public static Map<Long, ProcessDefinition> ALL_PROCESS_DEFINITION_MAP = new ConcurrentHashMap();
+
+  /** 流程缓存 key：name_version */
   public static Map<String, ProcessDefinition> PROCESS_DEFINITION_MAP = new ConcurrentHashMap();
 
-  /** 节点缓存 */
-  public static Map<String, NodeDefinition> NODE_DEFINITION_MAP = new ConcurrentHashMap();
-
-  /** 根据节点id节点缓存 */
-  public static Map<Long, NodeDefinition> NODE_DEFINITION_4_ID_MAP = new ConcurrentHashMap();
+  /** 节点流程关系缓存 */
+  public static Map<Long, ProcessDefinition> NODE_PROCESS_MAP = new ConcurrentHashMap();
 
   /**
    * Invoked by the containing {@code BeanFactory} after it has set all bean properties and
@@ -64,52 +64,58 @@ public class ProcessLoader implements InitializingBean, DisposableBean, Applicat
    */
   @Override
   public void afterPropertiesSet() throws Exception {
-    LoggerUtil.info(LOGGER, "process config load start");
+    LoggerUtil.info(LOGGER, "*******************************************************************");
+    LoggerUtil.info(LOGGER, "*******************process config load start*******************");
+
     Map<Long, ProcessDefinition> processDefinitionMap =
         processConfigService.getAllProcessDefinition();
 
     for (Entry<Long, ProcessDefinition> entry : processDefinitionMap.entrySet()) {
       ProcessDefinition processDefinition = entry.getValue();
-      PROCESS_DEFINITION_MAP.put(processDefinition.getName(), processDefinition);
+      ALL_PROCESS_DEFINITION_MAP.put(processDefinition.getProcessId(), processDefinition);
+
+      PROCESS_DEFINITION_MAP.put(
+          processDefinition.getName() + "_" + processDefinition.getVersion(), processDefinition);
 
       List<NodeDefinition> nodeDefinitionList = processDefinition.getNodeDefinitionList();
       for (NodeDefinition nodeDefinition : nodeDefinitionList) {
-        NODE_DEFINITION_MAP.put(nodeDefinition.getName(), nodeDefinition);
-        NODE_DEFINITION_4_ID_MAP.put(nodeDefinition.getNodeId(), nodeDefinition);
+        NODE_PROCESS_MAP.put(nodeDefinition.getNodeId(), processDefinition);
       }
     }
 
-    LoggerUtil.info(LOGGER, "process config load end");
+    LoggerUtil.info(LOGGER, "*******************process config load end*******************");
+    LoggerUtil.info(LOGGER, "*******************************************************************");
   }
 
   /**
    * 根据流程名称获取流程信息
    *
    * @param processName
+   * @param version
    * @return
    */
-  public static ProcessDefinition getProcessDefinition(String processName) {
-    return PROCESS_DEFINITION_MAP.get(processName);
+  public static ProcessDefinition getProcessDefinition(String processName, String version) {
+    return PROCESS_DEFINITION_MAP.get(processName + "_" + version);
   }
 
   /**
-   * 根据节点名称获取节点信息
+   * 根据流程id获取流程信息
    *
-   * @param nodeName
+   * @param processId
    * @return
    */
-  public static NodeDefinition getNodeDefinition(String nodeName) {
-    return NODE_DEFINITION_MAP.get(nodeName);
+  public static ProcessDefinition getProcessByProcessId(Long processId) {
+    return ALL_PROCESS_DEFINITION_MAP.get(processId);
   }
 
   /**
-   * 根据节点id获取节点信息
+   * 根据节点id获取流程信息
    *
    * @param nodeId
    * @return
    */
-  public static NodeDefinition getNodeDefinition(Long nodeId) {
-    return NODE_DEFINITION_4_ID_MAP.get(nodeId);
+  public static ProcessDefinition getProcessByNodeId(Long nodeId) {
+    return NODE_PROCESS_MAP.get(nodeId);
   }
 
   /**
@@ -120,24 +126,24 @@ public class ProcessLoader implements InitializingBean, DisposableBean, Applicat
    * @return
    */
   public static Execution getExecution(NodeTypeEnum nodeType, String executeCompoment) {
+    Execution execution = null;
     switch (nodeType) {
       case AUTO:
-        BeanFactoryUtil.getBean(executeCompoment, AutoExecution.class);
+        execution = BeanFactoryUtil.getBean(executeCompoment, AutoExecution.class);
         break;
       case TRIGGER:
-        BeanFactoryUtil.getBean(executeCompoment, TriggerExecution.class);
+        execution = BeanFactoryUtil.getBean(executeCompoment, TriggerExecution.class);
         break;
       case GATEWAY:
-        BeanFactoryUtil.getBean(executeCompoment, GatewayExecution.class);
+        execution = BeanFactoryUtil.getBean(executeCompoment, GatewayExecution.class);
         break;
       case SCHEDULE:
-        BeanFactoryUtil.getBean(executeCompoment, ScheduleExecution.class);
+        execution = BeanFactoryUtil.getBean(executeCompoment, ScheduleExecution.class);
         break;
       default:
         break;
     }
-
-    return null;
+    return execution;
   }
 
   /**

@@ -35,6 +35,9 @@ public enum ProcessxResultEnum {
 
   /** 流程节点类型不正确 */
   ILLEGAL_PROCESS_NODE_TYPE("ILLEGAL_PROCESS_NODE_TYPE", "流程节点类型不正确"),
+
+  /** 执行组件不存在 */
+  EXECUTE_COMPOMENT_NO_EXIST("EXECUTE_COMPOMENT_NO_EXIST", "执行组件不存在"),
   ;
 
   /** 枚举编号 */

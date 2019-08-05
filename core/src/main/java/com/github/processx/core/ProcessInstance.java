@@ -2,6 +2,7 @@
 package com.github.processx.core;
 
 import com.github.processx.core.service.model.ProcessFeature;
+import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +22,9 @@ public class ProcessInstance {
   /** 流程ID */
   private Long processId;
 
+  /** 流程实例ID */
+  private Long processInstanceId;
+
   /** 流程名称 */
   private String name;
 
@@ -33,12 +37,22 @@ public class ProcessInstance {
   /** 开始节点 or 初始节点 */
   private NodeInstance startNode;
 
-  /** 结束节点 */
-  private NodeInstance endNode;
-
   /** 当前节点 */
   private NodeInstance currentNode;
 
   /** 节点实例map */
-  private Map<String, NodeInstance> nameNodeInstanceMap;
+  private Map<String, NodeInstance> nodeInstanceMapWithNodeName = new HashMap<>();
+
+  /** 节点实例map */
+  private Map<Long, NodeInstance> nodeInstanceMapWithNodeId = new HashMap<>();
+
+  /**
+   * 添加节点实例
+   *
+   * @param nodeInstance
+   */
+  public void addNodeInstance(NodeInstance nodeInstance) {
+    nodeInstanceMapWithNodeName.put(nodeInstance.getName(), nodeInstance);
+    nodeInstanceMapWithNodeId.put(nodeInstance.getNodeId(), nodeInstance);
+  }
 }
