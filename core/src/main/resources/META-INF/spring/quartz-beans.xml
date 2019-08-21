@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
+			http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+  <bean id="processSchedulePlanHandle"
+    class="com.github.processx.core.schedule.impl.ProcessSchedulePlanHandleImpl"/>
+
+  <!-- ==================================================================== -->
+  <!-- ===============任务类可以不实现Job接口，通过targetMethod指定调用方法================= -->
+  <!-- ==================================================================== -->
+  <bean id="sparrowDataTemplateScheduleJob"
+    class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="processSchedulePlanHandle"/><!--定义目标bean -->
+    <property name="targetMethod" value="doJob"/><!-- 要执行的方法名称 -->
+    <property name="concurrent" value="false"/><!-- 不并发作业 -->
+  </bean>
+
+  <!-- ==================================================================== -->
+  <!-- ===========================调度触发器=================================== -->
+  <!-- ==================================================================== -->
+  <bean id="processSchedulePlanTrigger"
+    class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+    <property name="jobDetail" ref="sparrowDataTemplateScheduleJob"></property>
+    <!-- 每隔5秒执行一次 -->
+    <property name="cronExpression" value="*/5 * * * * ?"></property>
+  </bean>
+
+  <!-- ==================================================================== -->
+  <!-- ===========================调度工厂==================================== -->
+  <!-- ==================================================================== -->
+  <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    <property name="triggers">
+      <list>
+        <ref bean="processSchedulePlanTrigger"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>
+

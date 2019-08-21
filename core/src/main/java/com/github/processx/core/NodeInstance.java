@@ -2,6 +2,9 @@
 package com.github.processx.core;
 
 import com.github.processx.api.Execution;
+import com.github.processx.api.NodeContext;
+import com.github.processx.api.event.NodeEvent;
+import com.github.processx.core.executor.SynNodeExecutor;
 import com.github.processx.core.service.enums.NodeTypeEnum;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,10 +48,12 @@ public class NodeInstance {
   /** 最大执行时间 */
   private Integer maxExeTime;
 
-  /** 是否同步 */
+  /**
+   * 是否同步 isSync为false流程引擎执行到该节点的时候，会另起一个线程执行后续节点，当前线程返回
+   */
   private Boolean isSync;
 
-  /** 是否被保护 */
+  /** 是否被保护 isProtected为false流程引擎执行到该节点无论节点什么状态都会重新执行 */
   private Boolean isProtected;
 
   /** 下一个节点标识 */
@@ -64,38 +69,33 @@ public class NodeInstance {
   private boolean isEnd;
 
   /**
-   * 自动节点判断
-   *
-   * @return
+   * 节点同步执行器
    */
-  public boolean isAutoNode() {
-    return this.nodeType == NodeTypeEnum.AUTO;
+  private static SynNodeExecutor synNodeExecutor;
+
+  public NodeEvent execute(NodeContext context) {
+    if (synNodeExecutor == null) {
+      // TODO 从load获取
+    }
+
+    return synNodeExecutor.execute(this, context);
   }
 
   /**
-   * 自动节点判断
+   * 添加下一个节点标识
    *
-   * @return
+   * @param NodeInstance
    */
-  public boolean isGatewayNode() {
-    return this.nodeType == NodeTypeEnum.GATEWAY;
+  public void addNextNodeInstance(NodeInstance NodeInstance) {
+    this.nextNodeInstanceList.add(NodeInstance);
   }
 
   /**
-   * 触发（被动）节点判断
+   * 添加上一个节点标识
    *
-   * @return
+   * @param NodeInstance
    */
-  public boolean isTriggerNode() {
-    return this.nodeType == NodeTypeEnum.TRIGGER;
-  }
-
-  /**
-   * 定时节点判断
-   *
-   * @return
-   */
-  public boolean isScheduleNode() {
-    return this.nodeType == NodeTypeEnum.SCHEDULE;
+  public void addPreNodeInstance(NodeInstance NodeInstance) {
+    this.preNodeInstanceList.add(NodeInstance);
   }
 }

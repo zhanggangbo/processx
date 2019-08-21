@@ -11,7 +11,7 @@ import com.github.processx.api.event.TriggerNodeEvent;
  */
 public interface TriggerExecution extends Execution {
   /**
-   * 触发(节点执行方法
+   * 触发节点执行方法
    *
    * @param context 节点上下文
    * @return

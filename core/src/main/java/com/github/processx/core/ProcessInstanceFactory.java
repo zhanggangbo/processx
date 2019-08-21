@@ -23,14 +23,13 @@ public class ProcessInstanceFactory {
   /**
    * l流程实例创建
    *
-   * @param bizNo 业务流水号
    * @param processName 流程名称
-   * @param version 版本号
+   * @param bizNo 业务流水号
    * @return 流程实例
    */
-  public static ProcessInstance create(String bizNo, String processName, String version) {
+  public static ProcessInstance create(String processName, String bizNo) {
     /** 获取指定流程信息 */
-    ProcessDefinition processDefinition = ProcessLoader.getProcessDefinition(processName, version);
+    ProcessDefinition processDefinition = ProcessLoader.getLastProcessDefinition(processName);
 
     /** 流程信息不存在 */
     if (processDefinition == null) {
@@ -47,7 +46,6 @@ public class ProcessInstanceFactory {
     /** 获取流程节点 */
     List<NodeDefinition> nodeDefinitionList = processDefinition.getNodeDefinitionList();
     if (!BeanCheckUtil.checkNullOrEmpty(nodeDefinitionList)) {
-
       Map<Long, NodeInstance> nodeInstanceMap = new HashMap<>(nodeDefinitionList.size());
       for (NodeDefinition nodeDefinition : nodeDefinitionList) {
         NodeInstance nodeInstance = createNodeInstance(bizNo, nodeDefinition, process);
@@ -61,11 +59,8 @@ public class ProcessInstanceFactory {
         if (!BeanCheckUtil.checkNullOrEmpty(preNodeIdList)) {
           for (Long processId : preNodeIdList) {
             NodeInstance preNodeInstance = nodeInstanceMap.get(processId);
-            List<NodeInstance> nextNodeIdList = preNodeInstance.getNextNodeInstanceList();
-            nextNodeIdList.add(nodeInstance);
-
-            List<NodeInstance> preNodeInstanceList = nodeInstance.getPreNodeInstanceList();
-            preNodeInstanceList.add(preNodeInstance);
+            preNodeInstance.addNextNodeInstance(nodeInstance);
+            nodeInstance.addPreNodeInstance(preNodeInstance);
           }
         }
         process.addNodeInstance(nodeInstance);
@@ -74,18 +69,21 @@ public class ProcessInstanceFactory {
       for (Entry<Long, NodeInstance> entry : nodeInstanceMap.entrySet()) {
         NodeInstance nodeInstance = entry.getValue();
         List<NodeInstance> nextNodeInstanceList = nodeInstance.getNextNodeInstanceList();
-        if (BeanCheckUtil.checkNullOrEmpty(nextNodeInstanceList) && nodeInstance.isAutoNode()) {
+        if (BeanCheckUtil.checkNullOrEmpty(nextNodeInstanceList)
+          && nodeInstance.getNodeType() == NodeTypeEnum.AUTO) {
           nodeInstance.setEnd(true);
         }
 
         List<NodeInstance> preNodeInstanceList = nodeInstance.getPreNodeInstanceList();
-        if (BeanCheckUtil.checkNullOrEmpty(preNodeInstanceList) && nodeInstance.isAutoNode()) {
+        if (BeanCheckUtil.checkNullOrEmpty(preNodeInstanceList)
+          && nodeInstance.getNodeType() == NodeTypeEnum.AUTO) {
           nodeInstance.setStart(true);
           process.setStartNode(nodeInstance);
         }
       }
     }
 
+    process.initTools();
     return process;
   }
 

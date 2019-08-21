@@ -10,8 +10,7 @@
 		http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
   <!-- demo start -->
-  <bean id="startExecution"
-    class="com.github.processx.api.demo.StartExecution"/>
+
 
   <bean id="accessExecution"
     class="com.github.processx.api.demo.AccessExecution"/>
@@ -34,8 +33,20 @@
   <bean id="signExecution"
     class="com.github.processx.api.demo.SignExecution"/>
 
+
+  <bean id="startExecution"
+    class="com.github.processx.api.demo.StartExecution"/>
+
+  <bean id="processNodeDemo1Execution"
+    class="com.github.processx.api.demo.ProcessNodeDemo1Execution"/>
+
+  <bean id="processNodeDemo2Execution"
+    class="com.github.processx.api.demo.ProcessNodeDemo2Execution"/>
+
   <bean id="endExecution"
     class="com.github.processx.api.demo.EndExecution"/>
+
+
   <!-- demo end -->
 
 </beans>

@@ -1,4 +1,6 @@
-/** Lingxi.com Inc. Copyright (c) 2018-2019 All Rights Reserved. */
+/**
+ * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
+ */
 package com.github.processx.api.event.enums;
 
 import lombok.Getter;
@@ -11,17 +13,17 @@ import lombok.Getter;
  */
 @Getter
 public enum NodeEventTypeEnum {
-  /** */
+  /** 成功事件 */
   SUCCESS("SUCCESS", "成功事件"),
-  /** */
+  /** 等待事件 */
   FAIL("FAIL", "失败事件"),
   /** */
   WAIT("WAIT", "等待事件"),
-  /** */
+  /** 终止事件 */
   TERMINAL("TERMINAL", "终止事件"),
-  /** */
+  /** 运行中事件 */
   RUNNING("RUNNING", "运行中事件"),
-  /** */
+  /** 完成事件 */
   COMPLETE("COMPLETE", "完成事件"),
   ;
   /** 节点事件类型 */
