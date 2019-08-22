@@ -1,6 +1,8 @@
 /** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.api.event;
 
+import static com.github.processx.api.event.enums.NodeEventTypeEnum.FAIL;
+
 import com.github.processx.api.event.enums.NodeEventTypeEnum;
 import lombok.Getter;
 
@@ -41,5 +43,12 @@ public class NodeEvent extends Event {
   public NodeEvent(NodeEventTypeEnum eventType, Throwable exception) {
     this.eventType = eventType;
     this.exception = exception;
+  }
+
+  /**
+   * 创建一个失败事件
+   */
+  public static NodeEvent createFailEvent() {
+    return new NodeEvent(FAIL);
   }
 }

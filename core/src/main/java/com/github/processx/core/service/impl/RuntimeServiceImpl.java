@@ -83,4 +83,39 @@ public class RuntimeServiceImpl implements RuntimeService {
     record.setRecoverTime(new Date());
     return processNodeInstanceDOMapper.insertNodeInstance(record) > 0;
   }
+
+  /**
+   * 更新节点实例状态
+   *
+   * @param processInstanceId 流程实例ID
+   * @param nodeId 流程节点ID
+   * @param bizNo 业务流水
+   * @param status 流程节点状态
+   * @return 是否更新成功
+   */
+  @Override
+  public boolean updateNodeInstanceStatus(
+    Long processInstanceId, Long nodeId, String bizNo, Integer status) {
+    return processNodeInstanceDOMapper.updateNodeInstanceStatus(
+      processInstanceId, nodeId, bizNo, status)
+      > 0;
+  }
+
+  /**
+   * 更新节点实例修改时间
+   *
+   * @param processInstanceId 流程实例ID
+   * @param nodeId 流程节点ID
+   * @param bizNo 业务流水
+   * @param status 流程节点状态
+   * @param modifiedTime 节点实例修改时间
+   * @return 是否更新成功
+   */
+  @Override
+  public boolean updateNodeInstance4ModifiedTime(
+    Long processInstanceId, Long nodeId, String bizNo, Integer status, Date modifiedTime) {
+    return processNodeInstanceDOMapper.updateNodeInstance4ModifiedTime(
+      processInstanceId, nodeId, bizNo, status, modifiedTime)
+      > 0;
+  }
 }

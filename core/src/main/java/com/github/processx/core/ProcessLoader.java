@@ -8,6 +8,7 @@ import com.github.processx.api.ScheduleExecution;
 import com.github.processx.api.TriggerExecution;
 import com.github.processx.common.util.LoggerUtil;
 import com.github.processx.core.service.ProcessConfigService;
+import com.github.processx.core.service.RuntimeService;
 import com.github.processx.core.service.enums.NodeTypeEnum;
 import com.github.processx.core.service.model.NodeDefinition;
 import com.github.processx.core.service.model.ProcessDefinition;
@@ -51,14 +52,17 @@ public class ProcessLoader implements InitializingBean, DisposableBean, Applicat
 
   /** 流程缓存 key：name_version */
   public static Map<String, ProcessDefinition> PROCESS_DEFINITION_MAP = new ConcurrentHashMap();
+
   /**
    * 流程缓存 key：最终版本流程
    */
   public static Map<String, ProcessDefinition> LAST_PROCESS_DEFINITION_MAP =
     new ConcurrentHashMap();
 
-  /** 节点流程关系缓存 */
-  public static Map<Long, ProcessDefinition> NODE_PROCESS_MAP = new ConcurrentHashMap();
+  /**
+   * 节点缓存
+   */
+  public static Map<Long, NodeDefinition> NODE_DEFINITION_MAP = new ConcurrentHashMap();
 
   /**
    * Invoked by the containing {@code BeanFactory} after it has set all bean properties and
@@ -84,6 +88,7 @@ public class ProcessLoader implements InitializingBean, DisposableBean, Applicat
       processDefinitionList.add(entry.getValue());
     }
 
+    // 根据版本号倒序
     Collections.sort(processDefinitionList, Comparator.comparing(ProcessDefinition::getVersion));
 
     for (ProcessDefinition process : processDefinitionList) {
@@ -97,7 +102,7 @@ public class ProcessLoader implements InitializingBean, DisposableBean, Applicat
 
       List<NodeDefinition> nodeDefinitionList = process.getNodeDefinitionList();
       for (NodeDefinition nodeDefinition : nodeDefinitionList) {
-        NODE_PROCESS_MAP.put(nodeDefinition.getNodeId(), process);
+        NODE_DEFINITION_MAP.put(nodeDefinition.getNodeId(), nodeDefinition);
       }
     }
 
@@ -116,9 +121,7 @@ public class ProcessLoader implements InitializingBean, DisposableBean, Applicat
     return PROCESS_DEFINITION_MAP.get(processName + "_" + version);
   }
 
-  /**
-   * 根据流程名称获取最高版本流程信息
-   */
+  /** 根据流程名称获取最高版本流程信息 */
   public static ProcessDefinition getLastProcessDefinition(String processName) {
     return LAST_PROCESS_DEFINITION_MAP.get(processName);
   }
@@ -129,18 +132,18 @@ public class ProcessLoader implements InitializingBean, DisposableBean, Applicat
    * @param processId
    * @return
    */
-  public static ProcessDefinition getProcessByProcessId(Long processId) {
+  public static ProcessDefinition getProcessDefinition(Long processId) {
     return ALL_PROCESS_DEFINITION_MAP.get(processId);
   }
 
   /**
-   * 根据节点id获取流程信息
+   * 根据节点id获取节点信息
    *
    * @param nodeId
    * @return
    */
-  public static ProcessDefinition getProcessByNodeId(Long nodeId) {
-    return NODE_PROCESS_MAP.get(nodeId);
+  public static NodeDefinition getNodeDefinition(Long nodeId) {
+    return NODE_DEFINITION_MAP.get(nodeId);
   }
 
   /**
@@ -169,6 +172,10 @@ public class ProcessLoader implements InitializingBean, DisposableBean, Applicat
         break;
     }
     return execution;
+  }
+
+  public RuntimeService getRuntimeService() {
+    return applicationContext.getBean(RuntimeService.class);
   }
 
   /**

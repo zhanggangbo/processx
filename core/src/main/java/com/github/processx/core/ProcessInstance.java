@@ -2,14 +2,18 @@
 package com.github.processx.core;
 
 import com.github.processx.api.NodeContext;
+import com.github.processx.api.event.AutoNodeEvent;
 import com.github.processx.api.event.Event;
+import com.github.processx.api.event.GatewayNodeEvent;
 import com.github.processx.api.event.NodeEvent;
-import com.github.processx.core.exception.CompleteException;
-import com.github.processx.core.exception.RunningException;
+import com.github.processx.api.event.TriggerNodeEvent;
+import com.github.processx.core.exception.NodeCompleteException;
+import com.github.processx.core.exception.NodeRunningException;
 import com.github.processx.core.listener.EventListener;
 import com.github.processx.core.lock.NodeLock;
 import com.github.processx.core.service.RuntimeService;
 import com.github.processx.core.service.model.ProcessFeature;
+import com.github.processx.core.service.model.ProcessNodeInstanceModel;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
@@ -76,23 +80,17 @@ public class ProcessInstance {
     nodeInstanceMapWithNodeId.put(nodeInstance.getNodeId(), nodeInstance);
   }
 
-  /**
-   * 根据节点名称获取节点实例
-   */
+  /** 根据节点名称获取节点实例 */
   private NodeInstance findNodeInstance(String nodeName) {
     return nodeInstanceMapWithNodeName.get(nodeName);
   }
 
-  /**
-   * 事件通知
-   */
+  /** 事件通知 */
   public void notifyEvent(Event event) {
     nodeEventListener.handle(this, event);
   }
 
-  /**
-   * 节点执行
-   */
+  /** 节点执行 */
   public void execNode(String nodeName) {
     currentNode = this.findNodeInstance(nodeName);
     switch (currentNode.getNodeType()) {
@@ -115,41 +113,131 @@ public class ProcessInstance {
 
   /**
    * 自动节点执行
+   *
+   * @param nodeName
    */
   public void execAutoNode(String nodeName) {
-
+    NodeEvent nodeEvent;
     currentNode = this.findNodeInstance(nodeName);
-
-    if (!nodeLock.getLock(
-      currentNode.getProcessInstance().getProcessInstanceId(),
-      currentNode.getNodeId(),
-      currentNode.getBizNo(),
-      currentNode.getIsProtected(),
-      currentNode.getProcessInstance().getProcessFeature())) {
-      throw new RuntimeException();
-    }
-
-    NodeEvent nodeEvent = null;
     try {
-      NodeContext context = new NodeContext();
+      if (!nodeLock.getLock(
+        processInstanceId,
+        currentNode.getNodeId(),
+        bizNo,
+        currentNode.getIsProtected(),
+        processFeature)) {
+        // TODO 日志记录
+        nodeEvent = AutoNodeEvent.createRunningEvent();
+      } else {
+        NodeContext nodeContext =
+          buildNodeContext(processInstanceId, currentNode.getNodeId(), bizNo, processFeature);
+        nodeEvent = currentNode.execute(nodeContext);
+      }
 
-      nodeEvent = currentNode.execute(context);
-    } catch (RunningException e) {
-
-    } catch (CompleteException e) {
-
-    } catch (Exception e) {
-
+    } catch (NodeRunningException e) {
+      // TODO 日志记录
+      nodeEvent = AutoNodeEvent.createRunningEvent();
+    } catch (NodeCompleteException e) {
+      // TODO 日志记录
+      nodeEvent = AutoNodeEvent.createCompleteEvent();
     }
 
     notifyEvent(nodeEvent);
   }
 
+  /**
+   * 触发节点执行
+   */
   public void execTriggerNode(String nodeName) {
+    NodeEvent nodeEvent;
+    currentNode = this.findNodeInstance(nodeName);
+    try {
+      if (!nodeLock.getLock(
+        processInstanceId,
+        currentNode.getNodeId(),
+        bizNo,
+        currentNode.getIsProtected(),
+        processFeature)) {
+        // TODO 日志记录
+        nodeEvent = TriggerNodeEvent.createRunningEvent();
+      } else {
+        NodeContext nodeContext =
+          buildNodeContext(processInstanceId, currentNode.getNodeId(), bizNo, processFeature);
+        nodeEvent = currentNode.execute(nodeContext);
+      }
+
+    } catch (NodeRunningException e) {
+      // TODO 日志记录
+      nodeEvent = TriggerNodeEvent.createRunningEvent();
+    } catch (NodeCompleteException e) {
+      // TODO 日志记录
+      nodeEvent = TriggerNodeEvent.createCompleteEvent();
+    }
+
+    notifyEvent(nodeEvent);
   }
 
+  /**
+   * 网关节点执行
+   *
+   * @param nodeName
+   */
   public void execGatewayNode(String nodeName) {
+    NodeEvent nodeEvent;
+    currentNode = this.findNodeInstance(nodeName);
+    try {
+      if (!nodeLock.getLock(
+        processInstanceId,
+        currentNode.getNodeId(),
+        bizNo,
+        currentNode.getIsProtected(),
+        processFeature)) {
+        // TODO 日志记录
+        nodeEvent = GatewayNodeEvent.createRunningEvent();
+      } else {
+        NodeContext nodeContext =
+          buildNodeContext(processInstanceId, currentNode.getNodeId(), bizNo, processFeature);
+        nodeEvent = currentNode.execute(nodeContext);
+      }
+
+    } catch (NodeRunningException e) {
+      // TODO 日志记录
+      nodeEvent = GatewayNodeEvent.createRunningEvent();
+    } catch (NodeCompleteException e) {
+      // TODO 日志记录
+      nodeEvent = GatewayNodeEvent.createCompleteEvent("");
+    }
+
+    notifyEvent(nodeEvent);
   }
 
+  /**
+   * 定时节点执行
+   *
+   * @param nodeName
+   */
   public void execScheduleNode(String nodeName) {}
+
+  /**
+   * 构建节点执行上下文
+   *
+   * @param processInstanceId
+   * @param nodeId
+   * @param bizNo
+   * @return
+   */
+  private NodeContext buildNodeContext(
+    Long processInstanceId, Long nodeId, String bizNo, ProcessFeature processFeature) {
+    NodeContext context = new NodeContext();
+    if (!processFeature.getRecordNodeInstance()) {
+      return context;
+    }
+
+    ProcessNodeInstanceModel nodeInstance =
+      runtimeService.queryNodeInstance(processInstanceId, nodeId, bizNo);
+
+    context.setExecCount(nodeInstance.getExecCount());
+    context.setFailCount(nodeInstance.getFailedCount());
+    return context;
+  }
 }

@@ -3,7 +3,12 @@
  */
 package com.github.processx.core.lock;
 
+import com.github.processx.core.ProcessLoader;
+import com.github.processx.core.exception.NodeCompleteException;
+import com.github.processx.core.exception.NodeRunningException;
 import com.github.processx.core.service.RuntimeService;
+import com.github.processx.core.service.enums.NodeInstanceStatusEnum;
+import com.github.processx.core.service.model.NodeDefinition;
 import com.github.processx.core.service.model.ProcessFeature;
 import com.github.processx.core.service.model.ProcessNodeInstanceModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,24 +61,54 @@ public class NodeLockImpl implements NodeLock {
     String bizNo,
     Boolean isProtected,
     ProcessFeature processFeature) {
+    // 是否记录节点实例
     if (!processFeature.getRecordNodeInstance()) {
       return true;
     }
 
-    ProcessNodeInstanceModel processNodeInstance =
+    // 查询流程节点实例记录
+    ProcessNodeInstanceModel nodeInstance =
       runtimeService.queryNodeInstance(processInstanceId, nodeId, bizNo);
 
-    if (processNodeInstance == null) {
+    // 不存在直接新增
+    if (nodeInstance == null) {
       return runtimeService.addNodeInstance(processInstanceId, nodeId, bizNo);
     }
 
-    // 不保护更新状态为START
+    // 不保护更新状态为START，节点重新执行
     if (!isProtected) {
-
-      return true;
+      return runtimeService.updateNodeInstanceStatus(
+        processInstanceId, nodeId, bizNo, NodeInstanceStatusEnum.START.getStatus());
     }
 
-    // 流程节点状态判断
-    return false;
+    boolean lock;
+
+    switch (nodeInstance.getStatus()) {
+      case START:
+        NodeDefinition nodeDefinition = ProcessLoader.getNodeDefinition(nodeId);
+        Integer maxExeTime = nodeDefinition.getMaxExeTime();
+        // 判断节点运行是否超时
+        if (System.currentTimeMillis() - nodeInstance.getModifiedTime().getTime() > maxExeTime) {
+          lock =
+            runtimeService.updateNodeInstance4ModifiedTime(
+              processInstanceId,
+              nodeId,
+              bizNo,
+              NodeInstanceStatusEnum.START.getStatus(),
+              nodeInstance.getModifiedTime());
+        } else {
+          throw new NodeRunningException("获取执行锁失败，节点正在运行中...");
+        }
+        break;
+      case END:
+        throw new NodeCompleteException("获取执行锁失败，节点执行已完成");
+      default:
+        lock =
+          runtimeService.updateNodeInstanceStatus(
+            processInstanceId, nodeId, bizNo, NodeInstanceStatusEnum.START.getStatus());
+        break;
+    }
+
+    return lock;
   }
 }

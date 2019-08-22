@@ -12,7 +12,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * 流程节点实例定义
+ * 流程节点实例模型
  *
  * @author zhanggangbo
  * @version v 0.1 2019/8/21 21:09

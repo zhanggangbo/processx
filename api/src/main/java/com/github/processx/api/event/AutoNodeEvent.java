@@ -1,7 +1,6 @@
 /** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.api.event;
 
-
 import static com.github.processx.api.event.enums.NodeEventTypeEnum.COMPLETE;
 import static com.github.processx.api.event.enums.NodeEventTypeEnum.FAIL;
 import static com.github.processx.api.event.enums.NodeEventTypeEnum.RUNNING;
@@ -55,6 +54,20 @@ public class AutoNodeEvent extends NodeEvent {
    */
   public static AutoNodeEvent createWaitEvent() {
     return new AutoNodeEvent(WAIT);
+  }
+
+  /**
+   * 创建一个等待事件
+   */
+  public static AutoNodeEvent createWaitEvent(Throwable exception) {
+    return new AutoNodeEvent(WAIT, exception);
+  }
+
+  /**
+   * 创建一个终止事件
+   */
+  public static AutoNodeEvent createTerminalEvent() {
+    return new AutoNodeEvent(TERMINAL);
   }
 
   /**

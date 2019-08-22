@@ -5,13 +5,16 @@
 			http://www.springframework.org/schema/beans
 			http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
-  <bean id="processConfigService"
-    class="com.github.processx.core.service.impl.ProcessConfigServiceImpl"/>
-
   <bean id="beanFactoryUtil" class="com.github.processx.core.util.BeanFactoryUtil"
     factory-method="getInstance"/>
 
   <bean id="processLoader" class="com.github.processx.core.ProcessLoader"/>
+
+  <bean id="processConfigService"
+    class="com.github.processx.core.service.impl.ProcessConfigServiceImpl"/>
+
+  <bean id="runtimeService"
+    class="com.github.processx.core.service.impl.RuntimeServiceImpl"/>
 
 
 </beans>

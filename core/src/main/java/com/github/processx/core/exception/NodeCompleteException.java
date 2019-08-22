@@ -4,12 +4,12 @@
 package com.github.processx.core.exception;
 
 /**
- * 节点运行中异常
+ * 节点完成中异常
  *
  * @author zhanggangbo
- * @version v 0.1 2019/8/21 23:25
+ * @version v 0.1 2019/8/21 23:23
  */
-public class RunningException extends RuntimeException {
+public class NodeCompleteException extends RuntimeException {
 
   /**
    * Constructs a new runtime exception with the specified detail message. The cause is not
@@ -18,7 +18,7 @@ public class RunningException extends RuntimeException {
    * @param message the detail message. The detail message is saved for later retrieval by the
    *     {@link #getMessage()} method.
    */
-  public RunningException(String message) {
+  public NodeCompleteException(String message) {
     super(message);
   }
 
@@ -35,7 +35,7 @@ public class RunningException extends RuntimeException {
    *     unknown.)
    * @since 1.4
    */
-  public RunningException(String message, Throwable cause) {
+  public NodeCompleteException(String message, Throwable cause) {
     super(message, cause);
   }
 }
