@@ -6,6 +6,8 @@ package com.github.processx.core.lock;
 import com.github.processx.core.service.model.ProcessFeature;
 
 /**
+ * 流程节点锁
+ *
  * @author zhanggangbo
  * @version v 0.1 2019/8/18 17:10
  */

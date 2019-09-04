@@ -6,8 +6,6 @@
  */
 package com.github.processx.console.home.cntroller;
 
-import com.github.processx.core.ProcessInstance;
-import com.github.processx.core.ProcessInstanceFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +25,8 @@ public class HelloController {
     String processName = "credit";
     String version = "1";
 
-    ProcessInstance processInstance = ProcessInstanceFactory.create(bizNo, processName, version);
-    model.addAttribute("message", processInstance);
+    //    ProcessInstance processInstance = ProcessInstanceFactory.create(bizNo, processName);
+    //    model.addAttribute("message", processInstance);
     return "index";
   }
 }

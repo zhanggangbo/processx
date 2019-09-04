@@ -52,44 +52,32 @@ public class ScheduleNodeEvent extends NodeEvent {
     return new ScheduleNodeEvent(FAIL);
   }
 
-  /**
-   * 创建一个等待事件
-   */
+  /** 创建一个等待事件 */
   public static ScheduleNodeEvent createWaitEvent() {
     return new ScheduleNodeEvent(WAIT);
   }
 
-  /**
-   * 创建一个等待事件
-   */
+  /** 创建一个等待事件 */
   public static ScheduleNodeEvent createWaitEvent(Throwable exception) {
     return new ScheduleNodeEvent(WAIT, exception);
   }
 
-  /**
-   * 创建一个终止事件
-   */
+  /** 创建一个终止事件 */
   public static ScheduleNodeEvent createTerminalEvent() {
     return new ScheduleNodeEvent(TERMINAL);
   }
 
-  /**
-   * 创建一个终止事件
-   */
+  /** 创建一个终止事件 */
   public static ScheduleNodeEvent createTerminalEvent(Throwable exception) {
     return new ScheduleNodeEvent(TERMINAL, exception);
   }
 
-  /**
-   * 创建一个运行中事件
-   */
+  /** 创建一个运行中事件 */
   public static ScheduleNodeEvent createRunningEvent() {
     return new ScheduleNodeEvent(RUNNING, new RuntimeException("节点运行中..."));
   }
 
-  /**
-   * 创建一个完成事件
-   */
+  /** 创建一个完成事件 */
   public static ScheduleNodeEvent createCompleteEvent() {
     return new ScheduleNodeEvent(COMPLETE);
   }

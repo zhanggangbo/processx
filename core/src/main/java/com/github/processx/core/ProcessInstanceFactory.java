@@ -23,13 +23,11 @@ public class ProcessInstanceFactory {
   /**
    * l流程实例创建
    *
-   * @param processName 流程名称
+   * @param processDefinition 流程定义
    * @param bizNo 业务流水号
    * @return 流程实例
    */
-  public static ProcessInstance create(String processName, String bizNo) {
-    /** 获取指定流程信息 */
-    ProcessDefinition processDefinition = ProcessLoader.getLastProcessDefinition(processName);
+  public static ProcessInstance create(ProcessDefinition processDefinition, String bizNo) {
 
     /** 流程信息不存在 */
     if (processDefinition == null) {

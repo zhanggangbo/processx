@@ -29,7 +29,7 @@ public class ProcessEngineDemo {
     inputParam.put("key2", "value1");
 
     try {
-      ProcessResult result = processEngine.start("processName", bizNo, inputParam, null);
+      ProcessResult result = processEngine.start("credit", bizNo, inputParam, null);
       System.out.println(result);
     } catch (ProcessxException e) {
       e.printStackTrace();

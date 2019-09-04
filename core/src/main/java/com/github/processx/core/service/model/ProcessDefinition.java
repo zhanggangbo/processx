@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -33,6 +34,21 @@ public class ProcessDefinition implements Serializable {
 
   /** 流程特征 */
   ProcessFeature processFeature;
+
+  /**
+   * 根据节点名称获取节点定义信息
+   *
+   * @param nodeName 流程名称
+   */
+  private NodeDefinition getNodeDefinition(String nodeName) {
+    for (NodeDefinition nodeDefinition : nodeDefinitionList) {
+      if (StringUtils.equals(nodeName, nodeDefinition.getName())) {
+        return nodeDefinition;
+      }
+    }
+
+    return null;
+  }
 
   @Override
   public String toString() {

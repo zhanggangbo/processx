@@ -11,7 +11,7 @@
   <!-- ==================================================================== -->
   <!-- ===============任务类可以不实现Job接口，通过targetMethod指定调用方法================= -->
   <!-- ==================================================================== -->
-  <bean id="sparrowDataTemplateScheduleJob"
+  <bean id="processSchedulePlanTriggerJob"
     class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
     <property name="targetObject" ref="processSchedulePlanHandle"/><!--定义目标bean -->
     <property name="targetMethod" value="doJob"/><!-- 要执行的方法名称 -->
@@ -23,7 +23,7 @@
   <!-- ==================================================================== -->
   <bean id="processSchedulePlanTrigger"
     class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-    <property name="jobDetail" ref="sparrowDataTemplateScheduleJob"></property>
+    <property name="jobDetail" ref="processSchedulePlanTriggerJob"></property>
     <!-- 每隔5秒执行一次 -->
     <property name="cronExpression" value="*/5 * * * * ?"></property>
   </bean>

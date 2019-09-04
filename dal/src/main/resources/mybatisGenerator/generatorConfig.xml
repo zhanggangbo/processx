@@ -42,9 +42,9 @@
     </javaClientGenerator>
 
     <!-- dtprocessx tables -->
-    <table tableName="process_trigger_result" domainObjectName="ProcessTriggerResultDO">
+    <table tableName="process_schedule_plan" domainObjectName="ProcessSchedulePlanDO">
       <property name="rootInterface"
-        value="com.github.processx.dal.daointerface.ProcessTriggerResultDOMapperBase"/>
+        value="com.github.processx.dal.daointerface.ProcessSchedulePlanDOMapperBase"/>
     </table>
 
   </context>

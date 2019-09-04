@@ -63,4 +63,18 @@
     select id, process_id, biz_no, create_time, modified_time
     from process_instance
   </select>
+
+  <insert id="insertProcessInstance"
+    parameterType="com.github.processx.dal.dataobjects.ProcessInstanceDO">
+    insert into process_instance (id, process_id, biz_no,
+    create_time, modified_time)
+    values (#{id,jdbcType=BIGINT}, #{processId,jdbcType=BIGINT}, #{bizNo,jdbcType=VARCHAR},
+    CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+  </insert>
+
+  <select id="selectByBizNo" resultMap="BaseResultMap">
+    select id, process_id, biz_no, create_time, modified_time
+    from process_instance
+     where biz_no = #{bizNo,jdbcType=VARCHAR}
+  </select>
 </mapper>

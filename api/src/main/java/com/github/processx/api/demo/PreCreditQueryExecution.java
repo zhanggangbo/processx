@@ -27,4 +27,24 @@ public class PreCreditQueryExecution implements ScheduleExecution {
     LoggerUtil.info(LOGGER, "PreCreditQueryExecution 4");
     return ScheduleNodeEvent.createSuccessEvent();
   }
+
+  /**
+   * 获取执行周期
+   *
+   * @return 执行周期（单位：秒）
+   */
+  @Override
+  public Integer getPeriod() {
+    return 30;
+  }
+
+  /**
+   * 获取最大执行次数
+   *
+   * @return 最大执行次数
+   */
+  @Override
+  public Integer getMaxExecCount() {
+    return 3;
+  }
 }

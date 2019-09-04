@@ -90,6 +90,14 @@
     and node_id = #{nodeId,jdbcType=BIGINT}
   </select>
 
+  <select id="selectExecNodeInstance" resultMap="BaseResultMap">
+    select id, process_instance_id, biz_no, node_id, status, failed_count, exec_count,
+    recover_time, create_time, modified_time
+    from process_node_instance
+    where biz_no = #{bizNo,jdbcType=VARCHAR}
+    order by id
+  </select>
+
   <insert id="insertNodeInstance"
     parameterType="com.github.processx.dal.dataobjects.ProcessNodeInstanceDO">
     insert into process_node_instance (process_instance_id, biz_no,

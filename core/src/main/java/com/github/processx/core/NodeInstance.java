@@ -68,14 +68,18 @@ public class NodeInstance {
   /** 是否为结束节点 */
   private boolean isEnd;
 
-  /**
-   * 节点同步执行器
-   */
+  /** 节点同步执行器 */
   private static SynNodeExecutor synNodeExecutor;
 
+  /**
+   * 节点执行器
+   *
+   * @param context
+   * @return
+   */
   public NodeEvent execute(NodeContext context) {
     if (synNodeExecutor == null) {
-      // TODO 从load获取
+      synNodeExecutor = ProcessLoader.getSynNodeExecutor();
     }
 
     return synNodeExecutor.execute(this, context);

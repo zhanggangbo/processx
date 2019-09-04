@@ -7,6 +7,9 @@ import com.github.processx.api.GatewayExecution;
 import com.github.processx.api.ScheduleExecution;
 import com.github.processx.api.TriggerExecution;
 import com.github.processx.common.util.LoggerUtil;
+import com.github.processx.core.executor.SynNodeExecutor;
+import com.github.processx.core.listener.EventListener;
+import com.github.processx.core.lock.NodeLock;
 import com.github.processx.core.service.ProcessConfigService;
 import com.github.processx.core.service.RuntimeService;
 import com.github.processx.core.service.enums.NodeTypeEnum;
@@ -42,27 +45,27 @@ public class ProcessLoader implements InitializingBean, DisposableBean, Applicat
   private static final Logger LOGGER = LogManager.getLogger(ProcessLoader.class);
 
   /** @see org.springframework.context.ApplicationContext */
-  protected ApplicationContext applicationContext;
+  private static ApplicationContext applicationContext;
 
   /** 流程配置服务接口 */
   @Autowired private ProcessConfigService processConfigService;
 
   /** 流程缓存 key：id */
-  public static Map<Long, ProcessDefinition> ALL_PROCESS_DEFINITION_MAP = new ConcurrentHashMap();
+  private static Map<Long, ProcessDefinition> ALL_PROCESS_DEFINITION_MAP = new ConcurrentHashMap();
 
   /** 流程缓存 key：name_version */
-  public static Map<String, ProcessDefinition> PROCESS_DEFINITION_MAP = new ConcurrentHashMap();
+  private static Map<String, ProcessDefinition> PROCESS_DEFINITION_MAP = new ConcurrentHashMap();
 
   /**
    * 流程缓存 key：最终版本流程
    */
-  public static Map<String, ProcessDefinition> LAST_PROCESS_DEFINITION_MAP =
+  private static Map<String, ProcessDefinition> LAST_PROCESS_DEFINITION_MAP =
     new ConcurrentHashMap();
 
   /**
    * 节点缓存
    */
-  public static Map<Long, NodeDefinition> NODE_DEFINITION_MAP = new ConcurrentHashMap();
+  private static Map<Long, NodeDefinition> NODE_DEFINITION_MAP = new ConcurrentHashMap();
 
   /**
    * Invoked by the containing {@code BeanFactory} after it has set all bean properties and
@@ -174,8 +177,32 @@ public class ProcessLoader implements InitializingBean, DisposableBean, Applicat
     return execution;
   }
 
-  public RuntimeService getRuntimeService() {
+  /**
+   * 获取业务运行时服务接口
+   */
+  public static RuntimeService getRuntimeService() {
     return applicationContext.getBean(RuntimeService.class);
+  }
+
+  /**
+   * 获取流程事件监听器
+   */
+  public static EventListener getEventListener() {
+    return applicationContext.getBean(EventListener.class);
+  }
+
+  /**
+   * 获取流程节点锁
+   */
+  public static NodeLock getNodeLock() {
+    return applicationContext.getBean(NodeLock.class);
+  }
+
+  /**
+   * 获取节点同步执行器
+   */
+  public static SynNodeExecutor getSynNodeExecutor() {
+    return applicationContext.getBean(SynNodeExecutor.class);
   }
 
   /**
@@ -187,8 +214,21 @@ public class ProcessLoader implements InitializingBean, DisposableBean, Applicat
   @Override
   public void destroy() throws Exception {}
 
+  /**
+   * setApplicationContext
+   *
+   * @param applicationContext
+   * @throws BeansException
+   */
   @Override
   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-    this.applicationContext = applicationContext;
+    ProcessLoader.applicationContext = applicationContext;
+  }
+
+  /**
+   * getApplicationContext
+   */
+  public static ApplicationContext getApplicationContext() {
+    return applicationContext;
   }
 }

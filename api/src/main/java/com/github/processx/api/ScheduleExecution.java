@@ -17,4 +17,18 @@ public interface ScheduleExecution extends Execution {
    * @return
    */
   ScheduleNodeEvent execute(NodeContext context);
+
+  /**
+   * 获取执行周期
+   *
+   * @return 执行周期（单位：秒）
+   */
+  Integer getPeriod();
+
+  /**
+   * 获取最大执行次数
+   *
+   * @return 最大执行次数
+   */
+  Integer getMaxExecCount();
 }

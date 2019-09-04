@@ -25,4 +25,24 @@ public class CreditQueryExecution implements ScheduleExecution {
     LoggerUtil.info(LOGGER, "CreditQueryExecution 6");
     return ScheduleNodeEvent.createSuccessEvent();
   }
+
+  /**
+   * 获取执行周期
+   *
+   * @return 执行周期（单位：秒）
+   */
+  @Override
+  public Integer getPeriod() {
+    return 30;
+  }
+
+  /**
+   * 获取最大执行次数
+   *
+   * @return 最大执行次数
+   */
+  @Override
+  public Integer getMaxExecCount() {
+    return 3;
+  }
 }

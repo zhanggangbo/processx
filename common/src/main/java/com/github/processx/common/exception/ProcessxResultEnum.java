@@ -38,6 +38,11 @@ public enum ProcessxResultEnum {
 
   /** 执行组件不存在 */
   EXECUTE_COMPOMENT_NO_EXIST("EXECUTE_COMPOMENT_NO_EXIST", "执行组件不存在"),
+
+  /**
+   * 下一个执行节点不存在
+   */
+  NEXT_EXECUTE_NODE_NO_EXIST("NEXT_EXECUTE_NODE_NO_EXIST", "下一个执行节点不存在"),
   ;
 
   /** 枚举编号 */

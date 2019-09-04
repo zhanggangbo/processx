@@ -5,6 +5,7 @@ package com.github.processx.core.service;
 
 import com.github.processx.core.service.model.ProcessNodeInstanceModel;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 业务运行时服务接口
@@ -22,6 +23,14 @@ public interface RuntimeService {
    * @return 流程节点实例
    */
   ProcessNodeInstanceModel queryNodeInstance(Long processInstanceId, Long nodeId, String bizNo);
+
+  /**
+   * 查询指定业务流水号下所有流程节点
+   *
+   * @param bizNo 业务流水
+   * @return 流程节点实例
+   */
+  List<ProcessNodeInstanceModel> queryExecNodeInstance(String bizNo);
 
   /**
    * 新增流程节点实例

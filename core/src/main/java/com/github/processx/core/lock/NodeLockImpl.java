@@ -14,7 +14,7 @@ import com.github.processx.core.service.model.ProcessNodeInstanceModel;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * 节点锁
+ * 流程节点锁
  *
  * @author zhanggangbo
  * @version v 0.1 2019/8/18 17:11

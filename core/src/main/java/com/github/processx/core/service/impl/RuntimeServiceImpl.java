@@ -3,14 +3,18 @@
  */
 package com.github.processx.core.service.impl;
 
+import com.github.processx.common.bean.BeanCheckUtil;
 import com.github.processx.common.exception.ProcessxException;
 import com.github.processx.common.exception.ProcessxResultEnum;
 import com.github.processx.core.service.RuntimeService;
 import com.github.processx.core.service.enums.NodeInstanceStatusEnum;
 import com.github.processx.core.service.model.ProcessNodeInstanceModel;
+import com.github.processx.dal.daointerface.ProcessInstanceDOMapper;
 import com.github.processx.dal.daointerface.ProcessNodeInstanceDOMapper;
 import com.github.processx.dal.dataobjects.ProcessNodeInstanceDO;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -23,6 +27,12 @@ public class RuntimeServiceImpl implements RuntimeService {
   /** 节点实例DAO接口 */
   @Autowired
   private ProcessNodeInstanceDOMapper processNodeInstanceDOMapper;
+
+  /**
+   * 流程实例DAO接口
+   */
+  @Autowired
+  private ProcessInstanceDOMapper processInstanceDOMapper;
 
   /**
    * 查询流程节点实例
@@ -42,24 +52,27 @@ public class RuntimeServiceImpl implements RuntimeService {
       return null;
     }
 
-    ProcessNodeInstanceModel model = new ProcessNodeInstanceModel();
-    model.setId(record.getId());
-    model.setProcessInstanceId(record.getProcessInstanceId());
-    model.setNodeId(record.getNodeId());
-    model.setBizNo(record.getBizNo());
-    NodeInstanceStatusEnum nodeInstanceStatusEnum =
-      NodeInstanceStatusEnum.getNodeInstanceStatusEnumByStatus(record.getStatus());
-    if (nodeInstanceStatusEnum == null) {
-      throw new ProcessxException(ProcessxResultEnum.ILLEGAL_ARGUMENT, "非法的节点实例执行状态");
+    return getNodeInstanceModel(record);
+  }
+
+  /**
+   * 查询指定业务流水号下所有流程节点
+   *
+   * @param bizNo 业务流水
+   * @return 流程节点实例
+   */
+  @Override
+  public List<ProcessNodeInstanceModel> queryExecNodeInstance(String bizNo) {
+    List<ProcessNodeInstanceDO> nodeInstanceList =
+      processNodeInstanceDOMapper.selectExecNodeInstance(bizNo);
+
+    if (BeanCheckUtil.checkNullOrEmpty(nodeInstanceList)) {
+      return null;
     }
 
-    model.setStatus(nodeInstanceStatusEnum);
-    model.setExecCount(record.getExecCount());
-    model.setFailedCount(record.getFailedCount());
-    model.setRecoverTime(record.getRecoverTime());
-    model.setCreateTime(record.getCreateTime());
-    model.setModifiedTime(record.getModifiedTime());
-    return model;
+    List<ProcessNodeInstanceModel> modelList = new ArrayList<>(nodeInstanceList.size());
+    nodeInstanceList.forEach(record -> modelList.add(getNodeInstanceModel(record)));
+    return modelList;
   }
 
   /**
@@ -117,5 +130,29 @@ public class RuntimeServiceImpl implements RuntimeService {
     return processNodeInstanceDOMapper.updateNodeInstance4ModifiedTime(
       processInstanceId, nodeId, bizNo, status, modifiedTime)
       > 0;
+  }
+
+  /**
+   * getNodeInstanceModel
+   */
+  private ProcessNodeInstanceModel getNodeInstanceModel(ProcessNodeInstanceDO record) {
+    ProcessNodeInstanceModel model = new ProcessNodeInstanceModel();
+    model.setId(record.getId());
+    model.setProcessInstanceId(record.getProcessInstanceId());
+    model.setNodeId(record.getNodeId());
+    model.setBizNo(record.getBizNo());
+    NodeInstanceStatusEnum nodeInstanceStatusEnum =
+      NodeInstanceStatusEnum.getNodeInstanceStatusEnumByStatus(record.getStatus());
+    if (nodeInstanceStatusEnum == null) {
+      throw new ProcessxException(ProcessxResultEnum.ILLEGAL_ARGUMENT, "非法的节点实例执行状态");
+    }
+
+    model.setStatus(nodeInstanceStatusEnum);
+    model.setExecCount(record.getExecCount());
+    model.setFailedCount(record.getFailedCount());
+    model.setRecoverTime(record.getRecoverTime());
+    model.setCreateTime(record.getCreateTime());
+    model.setModifiedTime(record.getModifiedTime());
+    return model;
   }
 }
