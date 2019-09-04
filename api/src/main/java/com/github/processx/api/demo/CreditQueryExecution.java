@@ -33,7 +33,7 @@ public class CreditQueryExecution implements ScheduleExecution {
    */
   @Override
   public Integer getPeriod() {
-    return 30;
+    return 300;
   }
 
   /**

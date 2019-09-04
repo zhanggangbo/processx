@@ -13,6 +13,7 @@ import com.github.processx.api.event.enums.NodeEventTypeEnum;
 import com.github.processx.common.bean.BeanCheckUtil;
 import com.github.processx.common.exception.ProcessxException;
 import com.github.processx.common.exception.ProcessxResultEnum;
+import com.github.processx.common.util.LoggerUtil;
 import com.github.processx.core.exception.NodeCompleteException;
 import com.github.processx.core.exception.NodeRunningException;
 import com.github.processx.core.listener.EventListener;
@@ -28,6 +29,8 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 流程实例
@@ -38,6 +41,10 @@ import org.apache.commons.lang.StringUtils;
 @Getter
 @Setter
 public class ProcessInstance {
+  /**
+   * 日志记录
+   */
+  private static final Logger LOGGER = LogManager.getLogger(ProcessInstance.class);
   /** 业务流水号 */
   private String bizNo;
 
@@ -68,9 +75,7 @@ public class ProcessInstance {
   /** 节点实例map */
   private Map<Long, NodeInstance> nodeInstanceMapWithNodeId = new HashMap<>();
 
-  /**
-   * nodeEventListener
-   */
+  /** nodeEventListener */
   private static EventListener nodeEventListener;
 
   /** runtimeService */
@@ -104,9 +109,7 @@ public class ProcessInstance {
     nodeInstanceMapWithNodeId.put(nodeInstance.getNodeId(), nodeInstance);
   }
 
-  /**
-   * 根据节点名称获取节点实例
-   */
+  /** 根据节点名称获取节点实例 */
   public NodeInstance findNodeInstance(String nodeName) {
     return nodeInstanceMapWithNodeName.get(nodeName);
   }
@@ -121,9 +124,7 @@ public class ProcessInstance {
     return nodeInstanceMapWithNodeId.get(nodeId);
   }
 
-  /**
-   * 事件通知
-   */
+  /** 事件通知 */
   public void notifyEvent(Event event) {
     nodeEventListener.handle(this, event);
   }
@@ -293,8 +294,7 @@ public class ProcessInstance {
     ScheduleResult result = new ScheduleResult();
     result.setPeriod(executeCompoment.getPeriod());
 
-    NodeContext nodeContext =
-      buildNodeContext(processInstanceId, currentNode.getNodeId(), bizNo, processFeature);
+    NodeContext nodeContext = null;
 
     try {
       if (!nodeLock.getLock(
@@ -306,7 +306,13 @@ public class ProcessInstance {
         // TODO 日志记录
         nodeEvent = ScheduleNodeEvent.createRunningEvent();
       } else {
+        nodeContext =
+          buildNodeContext(processInstanceId, currentNode.getNodeId(), bizNo, processFeature);
+
+        LoggerUtil.info(LOGGER, "nodeContext============={0}", nodeContext);
         nodeEvent = currentNode.execute(nodeContext);
+
+        LoggerUtil.info(LOGGER, "nodeEvent============={0}", nodeEvent.getEventType());
 
         if (nodeEvent.getEventType() == NodeEventTypeEnum.SUCCESS
           || nodeEvent.getEventType() == NodeEventTypeEnum.TERMINAL) {

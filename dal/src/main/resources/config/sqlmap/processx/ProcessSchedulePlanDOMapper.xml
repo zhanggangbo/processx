@@ -80,8 +80,8 @@
 
   <insert id="insertSchedulePlan"
     parameterType="com.github.processx.dal.dataobjects.ProcessSchedulePlanDO">
-    insert into process_schedule_plan (id, biz_no, process_instance_id,
-    node_name, exec_time, exec_counts,
+     insert into process_schedule_plan (id, biz_no, process_instance_id,
+    node_id, exec_time, exec_counts,
     status, create_time, modified_time
     )
     values (#{id,jdbcType=BIGINT}, #{bizNo,jdbcType=VARCHAR}, #{processInstanceId,jdbcType=BIGINT},
@@ -95,8 +95,8 @@
     create_time, modified_time
     from process_schedule_plan
     where 	<![CDATA[ exec_time <= now() ]]>
-    limit 100
     order by id
+    limit 100
   </select>
 
   <select id="selectSchedulePlan" resultMap="BaseResultMap">
@@ -113,10 +113,33 @@
     and node_id = #{nodeId,jdbcType=BIGINT}
   </delete>
 
-  <update id="updateStatus"
+  <update id="updateReday2Running4Lock"
     parameterType="com.github.processx.dal.dataobjects.ProcessSchedulePlanDO">
     update process_schedule_plan
-    set status = #{status,jdbcType=VARCHAR},
+    set status = 'RUNNING',
+    modified_time = CURRENT_TIMESTAMP
+    where biz_no = #{bizNo,jdbcType=VARCHAR}
+    and node_id = #{nodeId,jdbcType=BIGINT}
+    and  status = 'READY'
+  </update>
+
+  <update id="updateRunningModifiedTime4Lock"
+    parameterType="com.github.processx.dal.dataobjects.ProcessSchedulePlanDO">
+    update process_schedule_plan
+    set modified_time = CURRENT_TIMESTAMP
+    where biz_no = #{bizNo,jdbcType=VARCHAR}
+    and node_id = #{nodeId,jdbcType=BIGINT}
+    and  status = 'RUNNING'
+    and  modified_time = #{modifiedTime,jdbcType=TIMESTAMP}
+  </update>
+
+  <update id="updateSchedulePlan"
+    parameterType="com.github.processx.dal.dataobjects.ProcessSchedulePlanDO">
+    update process_schedule_plan
+    set process_instance_id = #{processInstanceId,jdbcType=BIGINT},
+    exec_time = #{execTime,jdbcType=TIMESTAMP},
+    exec_counts = #{execCounts,jdbcType=INTEGER},
+    status = #{status,jdbcType=VARCHAR},
     modified_time = CURRENT_TIMESTAMP
     where biz_no = #{bizNo,jdbcType=VARCHAR}
     and node_id = #{nodeId,jdbcType=BIGINT}

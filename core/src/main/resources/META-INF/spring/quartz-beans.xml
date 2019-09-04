@@ -6,7 +6,7 @@
 			http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
   <bean id="processSchedulePlanHandle"
-    class="com.github.processx.core.schedule.impl.ProcessSchedulePlanHandleImpl"/>
+    class="com.github.processx.core.schedule.impl.SchedulePlanHandleImpl"/>
 
   <!-- ==================================================================== -->
   <!-- ===============任务类可以不实现Job接口，通过targetMethod指定调用方法================= -->

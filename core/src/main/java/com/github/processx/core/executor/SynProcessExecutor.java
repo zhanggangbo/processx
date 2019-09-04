@@ -3,7 +3,19 @@
  */
 package com.github.processx.core.executor;
 
+import com.github.processx.api.event.ProcessInnerEvent;
+import com.github.processx.common.exception.ProcessxException;
+import com.github.processx.common.exception.ProcessxResultEnum;
+import com.github.processx.core.ProcessInstance;
+import com.github.processx.core.ProcessInstanceFactory;
+import com.github.processx.core.ProcessLoader;
 import com.github.processx.core.schedule.ScheduleResult;
+import com.github.processx.core.service.ProcessTracker;
+import com.github.processx.core.service.model.NodeDefinition;
+import com.github.processx.core.service.model.ProcessDefinition;
+import com.github.processx.core.service.model.ProcessFeature;
+import com.github.processx.dal.dataobjects.ProcessInstanceDO;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author zhanggangbo
@@ -11,15 +23,47 @@ import com.github.processx.core.schedule.ScheduleResult;
  */
 public class SynProcessExecutor {
   /**
+   * 流程追踪器
+   */
+  @Autowired
+  private ProcessTracker processTracker;
+  /**
    * 定时节点执行
    *
-   * @param biaNo
+   * @param bizNo
    * @param nodeId
    * @param execCounts
    * @return
    */
-  public ScheduleResult exectionSchedule(String biaNo, Long nodeId, int execCounts) {
+  public ScheduleResult exectionSchedule(String bizNo, Long nodeId, int execCounts) {
 
-    return null;
+    try {
+
+      // 根据节点ID获取流程实例
+      ProcessDefinition processDefinition = ProcessLoader.getProcessDefinition(nodeId);
+
+      // 创建流程实例
+      ProcessInstance processInstance = ProcessInstanceFactory.create(processDefinition, bizNo);
+
+      ProcessFeature processFeature = processDefinition.getProcessFeature();
+      if (processFeature.getRecordProcessInstance()) {
+        ProcessInstanceDO processInstanceDO = processTracker.getProcessInstanceByBizNo(bizNo);
+        if (processInstanceDO != null) {
+          processInstance.setProcessInstanceId(processInstanceDO.getId());
+        }
+      }
+
+      NodeDefinition nodeDefinition = ProcessLoader.getNodeDefinition(nodeId);
+
+      processInstance.notifyEvent(
+        ProcessInnerEvent.createScheduleEvent(nodeDefinition.getName(), execCounts));
+
+      ScheduleResult result = new ScheduleResult();
+
+      return result;
+    } catch (Exception e) {
+      // TODO 细化异常并打印日志
+      throw new ProcessxException(ProcessxResultEnum.SYSTEM_ERROR);
+    }
   }
 }

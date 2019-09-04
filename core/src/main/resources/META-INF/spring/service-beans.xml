@@ -40,8 +40,8 @@
   <bean id="nodeLock"
     class="com.github.processx.core.lock.NodeLockImpl"/>
 
-  <bean id="processSchedulePlanService"
-    class="com.github.processx.core.schedule.impl.ProcessSchedulePlanServiceImpl"/>
+  <bean id="schedulePlanService"
+    class="com.github.processx.core.schedule.impl.SchedulePlanServiceImpl"/>
 
   <bean id="schedulePlanLock"
     class="com.github.processx.core.schedule.lock.SchedulePlanLock"/>

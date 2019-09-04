@@ -15,11 +15,17 @@ import org.apache.ibatis.annotations.Param;
 public interface ProcessInstanceDOMapperBase {
   /**
    * 根据业务流水号查询流程实例
+   *
+   * @param bizNo
+   * @return
    */
-  ProcessInstanceDO selectByBizNo(@Param("nodeId") String bizNo);
+  ProcessInstanceDO selectByBizNo(@Param("bizNo") String bizNo);
 
   /**
    * 新增流程实例
+   *
+   * @param record
+   * @return
    */
   int insertProcessInstance(ProcessInstanceDO record);
 }

@@ -11,7 +11,7 @@ import com.github.processx.common.bean.BeanCheckUtil;
 import com.github.processx.core.NodeInstance;
 import com.github.processx.core.ProcessInstance;
 import com.github.processx.core.executor.AynNodeExecutor;
-import com.github.processx.core.schedule.ProcessSchedulePlanService;
+import com.github.processx.core.schedule.SchedulePlanService;
 import com.github.processx.core.service.enums.NodeTypeEnum;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class NodeEventHandle implements EventHandle {
   private AynNodeExecutor aynNodeExecutor;
 
   @Autowired
-  ProcessSchedulePlanService processSchedulePlanService;
+  SchedulePlanService processSchedulePlanService;
 
   /**
    * 流程节点事件处理
@@ -62,9 +62,7 @@ public class NodeEventHandle implements EventHandle {
     }
   }
 
-  /**
-   * 成功事件处理
-   */
+  /** 成功事件处理 */
   private void handleSuccessEvent(ProcessInstance processInstance, Event event) {
     NodeInstance nextNodeInstance = getNextNodeInstance(processInstance, event);
     if (nextNodeInstance == null) {
@@ -81,7 +79,7 @@ public class NodeEventHandle implements EventHandle {
     } else if (nextNodeInstance.getNodeType() == NodeTypeEnum.SCHEDULE) {
       ScheduleExecution execute = (ScheduleExecution) nextNodeInstance.getExecuteCompoment();
       // 定时节点，写入定时任务表等待定时调度
-      processSchedulePlanService.addSchedulePlan(
+      processSchedulePlanService.addOrUpdateSchedulePlan(
         nextNodeInstance.getProcessInstance().getProcessInstanceId(),
         nextNodeInstance.getBizNo(),
         nextNodeInstance.getNodeId(),
@@ -94,9 +92,7 @@ public class NodeEventHandle implements EventHandle {
     }
   }
 
-  /**
-   * 获取下一个流程节点
-   */
+  /** 获取下一个流程节点 */
   private NodeInstance getNextNodeInstance(ProcessInstance processInstance, Event event) {
     NodeInstance nextNode = null;
     NodeInstance currentNode = processInstance.getCurrentNode();

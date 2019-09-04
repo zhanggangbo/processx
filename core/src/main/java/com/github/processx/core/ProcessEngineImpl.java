@@ -6,7 +6,6 @@ package com.github.processx.core;
 import com.github.processx.api.event.ProcessInnerEvent;
 import com.github.processx.common.exception.ProcessxException;
 import com.github.processx.common.exception.ProcessxResultEnum;
-import com.github.processx.core.schedule.ScheduleResult;
 import com.github.processx.core.service.ProcessTracker;
 import com.github.processx.core.service.model.ProcessDefinition;
 import com.github.processx.core.service.model.ProcessFeature;
@@ -67,9 +66,7 @@ public class ProcessEngineImpl implements ProcessEngine {
     }
   }
 
-  /**
-   * 触发执行某个节点
-   */
+  /** 触发执行某个节点 */
   @Override
   public ProcessResult call(
     String processName,
@@ -104,9 +101,7 @@ public class ProcessEngineImpl implements ProcessEngine {
     }
   }
 
-  /**
-   * 重新执行某个节点
-   */
+  /** 重新执行某个节点 */
   @Override
   public ProcessResult resume(
     String processName,
@@ -115,34 +110,5 @@ public class ProcessEngineImpl implements ProcessEngine {
     Map<String, Object> inputParam,
     ProsessListener listener) {
     return null;
-  }
-
-  public ScheduleResult scheduleExection(
-    String processName, String bizNo, String nodeName, int scheduleExecCounts) {
-    try {
-      // 根据流程名称获取流程实例
-      ProcessDefinition processDefinition = ProcessLoader.getLastProcessDefinition(processName);
-
-      // 创建流程实例
-      ProcessInstance processInstance = ProcessInstanceFactory.create(processDefinition, bizNo);
-
-      ProcessFeature processFeature = processDefinition.getProcessFeature();
-      if (processFeature.getRecordProcessInstance()) {
-        ProcessInstanceDO processInstanceDO = processTracker.getProcessInstanceByBizNo(bizNo);
-        if (processInstanceDO != null) {
-          processInstance.setProcessInstanceId(processInstanceDO.getId());
-        }
-      }
-
-      processInstance.notifyEvent(
-        ProcessInnerEvent.createScheduleEvent(nodeName, scheduleExecCounts));
-
-      ScheduleResult result = new ScheduleResult();
-
-      return result;
-    } catch (Exception e) {
-      // TODO 细化异常并打印日志
-      throw new ProcessxException(ProcessxResultEnum.SYSTEM_ERROR);
-    }
   }
 }

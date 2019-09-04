@@ -53,18 +53,13 @@ public class ProcessLoader implements InitializingBean, DisposableBean, Applicat
   /** 流程缓存 key：id */
   private static Map<Long, ProcessDefinition> ALL_PROCESS_DEFINITION_MAP = new ConcurrentHashMap();
 
-  /** 流程缓存 key：name_version */
-  private static Map<String, ProcessDefinition> PROCESS_DEFINITION_MAP = new ConcurrentHashMap();
-
   /**
    * 流程缓存 key：最终版本流程
    */
   private static Map<String, ProcessDefinition> LAST_PROCESS_DEFINITION_MAP =
     new ConcurrentHashMap();
 
-  /**
-   * 节点缓存
-   */
+  /** 节点缓存 */
   private static Map<Long, NodeDefinition> NODE_DEFINITION_MAP = new ConcurrentHashMap();
 
   /**
@@ -99,13 +94,10 @@ public class ProcessLoader implements InitializingBean, DisposableBean, Applicat
         LAST_PROCESS_DEFINITION_MAP.put(process.getName(), process);
       }
 
-      ALL_PROCESS_DEFINITION_MAP.put(process.getProcessId(), process);
-
-      PROCESS_DEFINITION_MAP.put(process.getName() + "_" + process.getVersion(), process);
-
       List<NodeDefinition> nodeDefinitionList = process.getNodeDefinitionList();
       for (NodeDefinition nodeDefinition : nodeDefinitionList) {
         NODE_DEFINITION_MAP.put(nodeDefinition.getNodeId(), nodeDefinition);
+        ALL_PROCESS_DEFINITION_MAP.put(nodeDefinition.getNodeId(), process);
       }
     }
 
@@ -114,29 +106,23 @@ public class ProcessLoader implements InitializingBean, DisposableBean, Applicat
   }
 
   /**
-   * 根据流程名称获取流程信息
+   * 根据流程名称获取最高版本流程信息
    *
    * @param processName
-   * @param version
    * @return
    */
-  public static ProcessDefinition getProcessDefinition(String processName, String version) {
-    return PROCESS_DEFINITION_MAP.get(processName + "_" + version);
-  }
-
-  /** 根据流程名称获取最高版本流程信息 */
   public static ProcessDefinition getLastProcessDefinition(String processName) {
     return LAST_PROCESS_DEFINITION_MAP.get(processName);
   }
 
   /**
-   * 根据流程id获取流程信息
+   * 根据节点id获取流程信息
    *
-   * @param processId
+   * @param nodeId
    * @return
    */
-  public static ProcessDefinition getProcessDefinition(Long processId) {
-    return ALL_PROCESS_DEFINITION_MAP.get(processId);
+  public static ProcessDefinition getProcessDefinition(Long nodeId) {
+    return ALL_PROCESS_DEFINITION_MAP.get(nodeId);
   }
 
   /**
@@ -177,30 +163,22 @@ public class ProcessLoader implements InitializingBean, DisposableBean, Applicat
     return execution;
   }
 
-  /**
-   * 获取业务运行时服务接口
-   */
+  /** 获取业务运行时服务接口 */
   public static RuntimeService getRuntimeService() {
     return applicationContext.getBean(RuntimeService.class);
   }
 
-  /**
-   * 获取流程事件监听器
-   */
+  /** 获取流程事件监听器 */
   public static EventListener getEventListener() {
     return applicationContext.getBean(EventListener.class);
   }
 
-  /**
-   * 获取流程节点锁
-   */
+  /** 获取流程节点锁 */
   public static NodeLock getNodeLock() {
     return applicationContext.getBean(NodeLock.class);
   }
 
-  /**
-   * 获取节点同步执行器
-   */
+  /** 获取节点同步执行器 */
   public static SynNodeExecutor getSynNodeExecutor() {
     return applicationContext.getBean(SynNodeExecutor.class);
   }
@@ -225,9 +203,7 @@ public class ProcessLoader implements InitializingBean, DisposableBean, Applicat
     ProcessLoader.applicationContext = applicationContext;
   }
 
-  /**
-   * getApplicationContext
-   */
+  /** getApplicationContext */
   public static ApplicationContext getApplicationContext() {
     return applicationContext;
   }
