@@ -36,7 +36,72 @@
     <!--dal层日志-->
     <RollingFile name="COMMON-DAL-APPENDER"
       fileName="${sys:user.home}/logs/processx/common-dal-digest.log"
-      filePattern="${sys:user.home}/logs/processx/common-dal.log.%d{yyyy-MM-dd}">
+      filePattern="${sys:user.home}/logs/processx/common-dal-digest.log.%d{yyyy-MM-dd}">
+      <Filters>
+        <ThresholdFilter level="INFO"/>
+      </Filters>
+      <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %t %m%n" charset="UTF-8"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+      </Policies>
+      <DefaultRolloverStrategy/>
+    </RollingFile>
+
+    <RollingFile name="COMMON-CORE-APPENDER"
+      fileName="${sys:user.home}/logs/processx/common-core-digest.log"
+      filePattern="${sys:user.home}/logs/processx/common-core-digest.log.%d{yyyy-MM-dd}">
+      <Filters>
+        <ThresholdFilter level="INFO"/>
+      </Filters>
+      <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %t %m%n" charset="UTF-8"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+      </Policies>
+      <DefaultRolloverStrategy/>
+    </RollingFile>
+
+    <RollingFile name="NODE-APPENDER"
+      fileName="${sys:user.home}/logs/processx/node-digest.log"
+      filePattern="${sys:user.home}/logs/processx/node-digest.log.%d{yyyy-MM-dd}">
+      <Filters>
+        <ThresholdFilter level="INFO"/>
+      </Filters>
+      <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %t %m%n" charset="UTF-8"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+      </Policies>
+      <DefaultRolloverStrategy/>
+    </RollingFile>
+
+    <RollingFile name="PROCESS-APPENDER"
+      fileName="${sys:user.home}/logs/processx/process-digest.log"
+      filePattern="${sys:user.home}/logs/processx/process-digest.log.%d{yyyy-MM-dd}">
+      <Filters>
+        <ThresholdFilter level="INFO"/>
+      </Filters>
+      <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %t %m%n" charset="UTF-8"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+      </Policies>
+      <DefaultRolloverStrategy/>
+    </RollingFile>
+
+    <RollingFile name="SCHEDULE-APPENDER"
+      fileName="${sys:user.home}/logs/processx/schedule-digest.log"
+      filePattern="${sys:user.home}/logs/processx/schedule-digest.log.%d{yyyy-MM-dd}">
+      <Filters>
+        <ThresholdFilter level="INFO"/>
+      </Filters>
+      <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %t %m%n" charset="UTF-8"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+      </Policies>
+      <DefaultRolloverStrategy/>
+    </RollingFile>
+
+    <RollingFile name="THREAD-POOL-APPENDER"
+      fileName="${sys:user.home}/logs/processx/thread-pool-digest.log"
+      filePattern="${sys:user.home}/logs/processx/thread-pool-digest.log.%d{yyyy-MM-dd}">
       <Filters>
         <ThresholdFilter level="INFO"/>
       </Filters>
@@ -56,8 +121,33 @@
 
     <!--如果不想遵循父类的Appender，可以加上additivity="false"参数。
     如下配置，common-dal-digest的INFO以上日志将保存到文件中，并且不会打印到控制台。-->
-    <logger name="common-dal-digest" level="INFO" additivity="true">
+    <logger name="COMMON-DAL-DIGEST" level="INFO" additivity="false">
       <appender-ref ref="COMMON-DAL-APPENDER"/>
+      <appender-ref ref="ERROR-APPENDER"/>
+    </logger>
+
+    <logger name="COMMON-CORE-DIGEST" level="INFO" additivity="false">
+      <appender-ref ref="COMMON-CORE-APPENDER"/>
+      <appender-ref ref="ERROR-APPENDER"/>
+    </logger>
+
+    <logger name="NODE-DIGEST" level="INFO" additivity="false">
+      <appender-ref ref="NODE-APPENDER"/>
+      <appender-ref ref="ERROR-APPENDER"/>
+    </logger>
+
+    <logger name="PROCESS-DIGEST" level="INFO" additivity="false">
+      <appender-ref ref="PROCESS-APPENDER"/>
+      <appender-ref ref="ERROR-APPENDER"/>
+    </logger>
+
+    <logger name="SCHEDULE-DIGEST" level="INFO" additivity="false">
+      <appender-ref ref="SCHEDULE-APPENDER"/>
+      <appender-ref ref="ERROR-APPENDER"/>
+    </logger>
+
+    <logger name="THREAD-POOL-DIGEST" level="INFO" additivity="false">
+      <appender-ref ref="THREAD-POOL-APPENDER"/>
       <appender-ref ref="ERROR-APPENDER"/>
     </logger>
 

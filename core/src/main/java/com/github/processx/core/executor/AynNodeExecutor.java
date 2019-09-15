@@ -8,10 +8,9 @@ import com.github.processx.api.event.NodeEvent;
 import com.github.processx.api.event.ProcessInnerEvent;
 import com.github.processx.core.NodeInstance;
 import com.github.processx.core.ProcessInstance;
+import com.github.processx.core.threadpool.MonitorThreadPoolExecutor;
+import com.github.processx.core.threadpool.ThreadFactoryBuilder;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 节点异步执行器
@@ -22,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 public class AynNodeExecutor implements NodeExecutor {
 
   private static ExecutorService aynNodeExecutorThreadPool =
-    new ThreadPoolExecutor(60, 60, 0L, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
+    new MonitorThreadPoolExecutor(60, new ThreadFactoryBuilder("node_executor_thread_pool"));
 
   /**
    * 节点执行

@@ -10,12 +10,11 @@ import com.github.processx.core.schedule.SchedulePlanService;
 import com.github.processx.core.schedule.ScheduleResult;
 import com.github.processx.core.schedule.lock.SchedulePlanLock;
 import com.github.processx.core.service.ProcessTracker;
+import com.github.processx.core.threadpool.MonitorThreadPoolExecutor;
+import com.github.processx.core.threadpool.ThreadFactoryBuilder;
 import com.github.processx.dal.dataobjects.ProcessSchedulePlanDO;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +26,12 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @version v 0.1 2019/8/17 18:20
  */
 public class SchedulePlanHandleImpl implements SchedulePlanHandle {
-  /**
-   * 日志记录
-   */
+  /** 日志记录 */
   private static final Logger LOGGER = LogManager.getLogger(SchedulePlanHandleImpl.class);
 
-  private static ExecutorService fixedThreadPool =
-    new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
+  private static ExecutorService schedulePlanExecutorThreadPool =
+    new MonitorThreadPoolExecutor(
+      60, new ThreadFactoryBuilder("schedule_plan_executor_thread_pool"));
 
   @Autowired
   private ProcessTracker processTracker;
@@ -52,7 +50,7 @@ public class SchedulePlanHandleImpl implements SchedulePlanHandle {
   public void doJob() {
     List<ProcessSchedulePlanDO> schedulePlanList = schedulePlanService.getSchedulePlan();
     for (ProcessSchedulePlanDO schedulePlan : schedulePlanList) {
-      fixedThreadPool.submit(
+      schedulePlanExecutorThreadPool.submit(
         () -> {
           boolean lock = schedulePlanLock.getLock(schedulePlan);
 

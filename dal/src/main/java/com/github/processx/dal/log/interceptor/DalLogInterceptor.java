@@ -5,6 +5,7 @@
  */
 package com.github.processx.dal.log.interceptor;
 
+import com.github.processx.common.enums.LoggerEnum;
 import com.github.processx.common.util.LoggerUtil;
 import java.lang.reflect.Method;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -21,7 +22,8 @@ import org.apache.logging.log4j.Logger;
 public class DalLogInterceptor implements MethodInterceptor {
 
   /** 日志记录 */
-  private static final Logger LOGGER = LogManager.getLogger("common-dal-digest");
+  private static final Logger LOGGER =
+    LogManager.getLogger(LoggerEnum.COMMON_DAL_DIGEST.getLogger());
 
   /**
    * Implement this method to perform extra treatments before and after the invocation. Polite

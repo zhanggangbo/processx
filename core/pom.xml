@@ -45,6 +45,11 @@
       <artifactId>spring-context-support</artifactId>
     </dependency>
     <!-- 定时任务作业调度 end -->
+
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
   </dependencies>
 
 

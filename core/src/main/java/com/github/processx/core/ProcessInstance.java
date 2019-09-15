@@ -338,7 +338,8 @@ public class ProcessInstance {
 
     notifyEvent(nodeEvent);
 
-    // TODO 保存结果到ThreadLocal
+    //  保存结果到ThreadLocal
+    DataHelper.setScheduleResult(result);
   }
 
   /**

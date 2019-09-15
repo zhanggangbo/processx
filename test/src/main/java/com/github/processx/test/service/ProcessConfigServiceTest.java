@@ -3,6 +3,7 @@ package com.github.processx.test.service;
 
 import com.github.processx.common.util.LoggerUtil;
 import com.github.processx.core.ProcessEngine;
+import com.github.processx.core.ProcessResult;
 import com.github.processx.core.service.ProcessConfigService;
 import com.github.processx.core.service.model.ProcessDefinition;
 import com.github.processx.test.base.AbstractTestBase;
@@ -42,13 +43,13 @@ public class ProcessConfigServiceTest extends AbstractTestBase {
     inputParam.put("key1", "value1");
     inputParam.put("key2", "value1");
 
-//    ProcessResult result = processEngine.start("credit", bizNo, inputParam, null);
-//    LoggerUtil.info(LOGGER, "result============={0}", result);
+    ProcessResult result = processEngine.start("credit", bizNo, inputParam, null);
+    LoggerUtil.info(LOGGER, "result============={0}", result);
 
     Thread.sleep(60000L);
 
-//    ProcessResult result1 = processEngine.call("credit", bizNo, "binding_card", inputParam, null);
-//
-//    LoggerUtil.info(LOGGER, "result1=================={0}", result1);
+    ProcessResult result1 = processEngine.call("credit", bizNo, "binding_card", inputParam, null);
+
+    LoggerUtil.info(LOGGER, "result1=================={0}", result1);
   }
 }
