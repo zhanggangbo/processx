@@ -339,7 +339,7 @@ public class ProcessInstance {
     notifyEvent(nodeEvent);
 
     //  保存结果到ThreadLocal
-    DataHelper.setScheduleResult(result);
+    DataBus.get().setScheduleResult(result);
   }
 
   /**

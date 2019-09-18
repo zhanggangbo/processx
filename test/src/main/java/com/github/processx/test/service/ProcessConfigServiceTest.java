@@ -46,7 +46,7 @@ public class ProcessConfigServiceTest extends AbstractTestBase {
     ProcessResult result = processEngine.start("credit", bizNo, inputParam, null);
     LoggerUtil.info(LOGGER, "result============={0}", result);
 
-    Thread.sleep(60000L);
+    Thread.sleep(120000L);
 
     ProcessResult result1 = processEngine.call("credit", bizNo, "binding_card", inputParam, null);
 

@@ -21,7 +21,7 @@ public enum NodeInstanceStatusEnum {
   /** 完成 */
   END(2, "完成"),
   /** 异常 */
-  ERROT(3, "异常"),
+  ERROR(3, "异常"),
   /** 等待 */
   WAIT(4, "等待"),
   ;

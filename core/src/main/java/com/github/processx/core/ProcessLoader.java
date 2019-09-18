@@ -27,7 +27,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -39,7 +38,7 @@ import org.springframework.context.ApplicationContextAware;
  * @author zhanggangbo
  * @version v 0.1 2019/7/28 16:08
  */
-public class ProcessLoader implements InitializingBean, DisposableBean, ApplicationContextAware {
+public class ProcessLoader implements InitializingBean, ApplicationContextAware {
 
   /** 日志记录 */
   private static final Logger LOGGER = LogManager.getLogger(ProcessLoader.class);
@@ -182,15 +181,6 @@ public class ProcessLoader implements InitializingBean, DisposableBean, Applicat
   public static SynNodeExecutor getSynNodeExecutor() {
     return applicationContext.getBean(SynNodeExecutor.class);
   }
-
-  /**
-   * Invoked by the containing {@code BeanFactory} on destruction of a bean.
-   *
-   * @throws Exception in case of shutdown errors. Exceptions will get logged but not rethrown to
-   *     allow other beans to release their resources as well.
-   */
-  @Override
-  public void destroy() throws Exception {}
 
   /**
    * setApplicationContext
