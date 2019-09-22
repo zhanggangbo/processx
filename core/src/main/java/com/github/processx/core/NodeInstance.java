@@ -102,4 +102,15 @@ public class NodeInstance {
   public void addPreNodeInstance(NodeInstance NodeInstance) {
     this.preNodeInstanceList.add(NodeInstance);
   }
+
+  /**
+   * 节点是否另起一个线程执行
+   */
+  public boolean executeByNewThread() {
+    if (!isSync || nodeType == NodeTypeEnum.TRIGGER || nodeType == NodeTypeEnum.SCHEDULE) {
+      return true;
+    }
+
+    return false;
+  }
 }

@@ -49,6 +49,9 @@
   <bean id="synProcessExecutor"
     class="com.github.processx.core.executor.SynProcessExecutor"/>
 
+  <bean id="processTriggerResultHandler"
+    class="com.github.processx.core.ProcessTriggerResultHandler"/>
+
 
 </beans>
 

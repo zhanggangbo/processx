@@ -3,7 +3,7 @@
  */
 package com.github.processx.core.schedule.impl;
 
-import com.github.processx.common.DateUtil;
+import com.github.processx.common.util.DateUtil;
 import com.github.processx.core.schedule.SchedulePlanService;
 import com.github.processx.core.schedule.enums.StatusEnum;
 import com.github.processx.dal.daointerface.ProcessSchedulePlanDOMapper;

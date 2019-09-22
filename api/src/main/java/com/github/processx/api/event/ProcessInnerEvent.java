@@ -35,6 +35,13 @@ public class ProcessInnerEvent extends Event {
 
   /**
    * 构造方法
+   */
+  public ProcessInnerEvent(ProcessInnerEventTypeEnum eventType) {
+    this.eventType = eventType;
+  }
+
+  /**
+   * 构造方法
    *
    * @param nodeName
    * @param eventType

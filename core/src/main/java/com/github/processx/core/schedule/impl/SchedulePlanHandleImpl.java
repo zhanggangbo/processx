@@ -30,8 +30,7 @@ public class SchedulePlanHandleImpl implements SchedulePlanHandle {
   private static final Logger LOGGER = LogManager.getLogger(SchedulePlanHandleImpl.class);
 
   private static ExecutorService schedulePlanExecutorThreadPool =
-    new MonitorThreadPoolExecutor(
-      60, new ThreadFactoryBuilder("schedule_plan_executor_thread_pool"));
+    new MonitorThreadPoolExecutor(60, new ThreadFactoryBuilder("SchedulePlanExecutorThreadPool"));
 
   @Autowired
   private ProcessTracker processTracker;

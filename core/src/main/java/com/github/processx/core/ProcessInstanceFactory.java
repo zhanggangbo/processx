@@ -70,6 +70,7 @@ public class ProcessInstanceFactory {
         if (BeanCheckUtil.checkNullOrEmpty(nextNodeInstanceList)
           && nodeInstance.getNodeType() == NodeTypeEnum.AUTO) {
           nodeInstance.setEnd(true);
+          process.setEndNode(nodeInstance);
         }
 
         List<NodeInstance> preNodeInstanceList = nodeInstance.getPreNodeInstanceList();

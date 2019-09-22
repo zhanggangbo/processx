@@ -21,7 +21,7 @@ import java.util.concurrent.ExecutorService;
 public class AynNodeExecutor implements NodeExecutor {
 
   private static ExecutorService aynNodeExecutorThreadPool =
-    new MonitorThreadPoolExecutor(60, new ThreadFactoryBuilder("node_executor_thread_pool"));
+    new MonitorThreadPoolExecutor(60, new ThreadFactoryBuilder("NodeExecutorThreadPool"));
 
   /**
    * 节点执行

@@ -27,29 +27,25 @@ public class DataBus {
   private Map<String, Object> triggerInput;
   /** 定时任务执行结果 */
   private ScheduleResult scheduleResult;
-  /**
-   * 流程实例
-   */
+  /** 流程实例 */
   ProcessInstance processInstance;
 
-  /**
-   * 构造方法
-   */
+  private Long onsetNodeId;
+
+  private Map<String, Object> lastOutput;
+
+  /** 构造方法 */
   private DataBus(String bizNo, ProcessInstance processInstance) {
     this.bizNo = bizNo;
     this.processInstance = processInstance;
   }
 
-  /**
-   * 获取业务数据
-   */
+  /** 获取业务数据 */
   public static DataBus get() {
     return threadLocal.get();
   }
 
-  /**
-   * 添加业务数据
-   */
+  /** 添加业务数据 */
   public static void put(DataBus dataBus) {
     if (threadLocal.get() != null) {
       threadLocal.remove();
@@ -57,17 +53,13 @@ public class DataBus {
     threadLocal.set(dataBus);
   }
 
-  /**
-   * 流程启动时，数据初始化
-   */
+  /** 流程启动时，数据初始化 */
   public static DataBus init(
     String bizNo, Map<String, Object> processInput, ProcessInstance processInstance) {
     return init(bizNo, processInput, processInput, processInstance);
   }
 
-  /**
-   *
-   */
+  /** */
   public static DataBus init(String bizNo, ProcessInstance processInstance) {
     return init(bizNo, null, null, processInstance);
   }

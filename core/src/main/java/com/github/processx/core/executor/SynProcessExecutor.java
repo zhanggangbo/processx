@@ -4,15 +4,14 @@
 package com.github.processx.core.executor;
 
 import com.github.processx.api.event.ProcessInnerEvent;
+import com.github.processx.common.enums.LoggerEnum;
 import com.github.processx.common.exception.ProcessxException;
 import com.github.processx.common.exception.ProcessxResultEnum;
-import com.github.processx.common.util.LoggerUtil;
 import com.github.processx.core.DataBus;
 import com.github.processx.core.ProcessInstance;
 import com.github.processx.core.ProcessInstanceFactory;
 import com.github.processx.core.ProcessLoader;
 import com.github.processx.core.schedule.ScheduleResult;
-import com.github.processx.core.schedule.impl.SchedulePlanHandleImpl;
 import com.github.processx.core.service.ProcessTracker;
 import com.github.processx.core.service.model.NodeDefinition;
 import com.github.processx.core.service.model.ProcessDefinition;
@@ -30,7 +29,7 @@ public class SynProcessExecutor {
   /**
    * 日志记录
    */
-  private static final Logger LOGGER = LogManager.getLogger(SchedulePlanHandleImpl.class);
+  private static final Logger LOGGER = LogManager.getLogger(LoggerEnum.PROCESS_DIGEST.getLogger());
 
   /**
    * 流程追踪器
@@ -64,11 +63,12 @@ public class SynProcessExecutor {
 
       NodeDefinition nodeDefinition = ProcessLoader.getNodeDefinition(nodeId);
 
+      DataBus.init(bizNo, processInstance);
+
       processInstance.notifyEvent(
         ProcessInnerEvent.createScheduleEvent(nodeDefinition.getName(), execCounts));
 
       ScheduleResult scheduleResult = DataBus.get().getScheduleResult();
-      LoggerUtil.info(LOGGER, "ScheduleResult====exectionScheduleexectionScheduleexectionSchedule========={0}", scheduleResult);
       return scheduleResult;
     } catch (Exception e) {
       // TODO 细化异常并打印日志

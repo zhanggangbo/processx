@@ -69,4 +69,11 @@
     select id, process_instance_id, biz_no, node_id, value, create_time, modified_time
     from process_trigger_result
   </select>
+
+  <select id="selectProcessTriggerResult" resultMap="BaseResultMap">
+    select id, process_instance_id, biz_no, node_id, value, create_time, modified_time
+    from process_trigger_result
+    where biz_no = #{bizNo,jdbcType=VARCHAR}
+    and node_id = #{nodeId,jdbcType=BIGINT}
+  </select>
 </mapper>

@@ -66,6 +66,11 @@ public class ProcessInstance {
   /** 开始节点 or 初始节点 */
   private NodeInstance startNode;
 
+  /**
+   * 结束节点
+   */
+  private NodeInstance endNode;
+
   /** 当前节点 */
   private NodeInstance currentNode;
 
