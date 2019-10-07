@@ -77,4 +77,15 @@
     from process_instance
      where biz_no = #{bizNo,jdbcType=VARCHAR}
   </select>
+
+  <select id="selectByQueryData" resultMap="BaseResultMap">
+    select id, process_id, biz_no, create_time, modified_time
+    from process_instance
+    <where>
+      <if test="queryData!=null and queryData!=''">
+        and biz_no = #{queryData,jdbcType=VARCHAR}
+      </if>
+    </where>
+    order by id desc
+  </select>
 </mapper>

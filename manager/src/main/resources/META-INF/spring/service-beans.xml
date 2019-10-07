@@ -8,5 +8,11 @@
   <bean id="serviceTemplate"
     class="com.github.processx.manager.service.template.ServiceTemplateImpl"/>
 
+  <bean id="processService"
+    class="com.github.processx.manager.service.ProcessServiceImpl"/>
+
+  <bean id="processInstanceService"
+    class="com.github.processx.manager.service.ProcessInstanceServiceImpl"/>
+
 </beans>
 

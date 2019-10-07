@@ -1,2 +1,2 @@
 Module-Name: com.github.processx.manager
-Require-Module: com.github.processx.core
+Require-Module: com.github.processx.dal

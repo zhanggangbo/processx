@@ -4,6 +4,7 @@
 package com.github.processx.dal.daointerface;
 
 import com.github.processx.dal.dataobjects.ProcessInstanceDO;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -28,4 +29,9 @@ public interface ProcessInstanceDOMapperBase {
    * @return
    */
   int insertProcessInstance(ProcessInstanceDO record);
+
+  /**
+   * 查询流程实例信息
+   */
+  List<ProcessInstanceDO> selectByQueryData(@Param("queryData") String queryData);
 }

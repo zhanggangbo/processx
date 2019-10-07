@@ -18,7 +18,7 @@
   <dependencies>
     <dependency>
       <groupId>com.github.processx</groupId>
-      <artifactId>processx-core</artifactId>
+      <artifactId>processx-dal</artifactId>
     </dependency>
 
     <dependency>

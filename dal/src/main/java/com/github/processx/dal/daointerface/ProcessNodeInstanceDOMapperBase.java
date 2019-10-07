@@ -30,6 +30,9 @@ public interface ProcessNodeInstanceDOMapperBase {
 
   /**
    * 查询指定业务流水号下所有流程节点
+   *
+   * @param bizNo
+   * @return
    */
   List<ProcessNodeInstanceDO> selectExecNodeInstance(@Param("bizNo") String bizNo);
 
@@ -72,4 +75,9 @@ public interface ProcessNodeInstanceDOMapperBase {
       @Param("bizNo") String bizNo,
       @Param("status") Integer status,
       @Param("modifiedTime") Date modifiedTime);
+
+  /**
+   * 根据业务流水号获取流程节点实例信息
+   */
+  List<ProcessNodeInstanceDO> selectByBizNo(@Param("bizNo") String bizNo);
 }

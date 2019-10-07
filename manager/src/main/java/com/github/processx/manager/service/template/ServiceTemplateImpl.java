@@ -50,7 +50,7 @@ public class ServiceTemplateImpl implements ServiceTemplate {
             /** 业务异常 */
             LoggerUtil.error(
                 LOGGER,
-                "mark=%s,param=%s,resultCode= %s,resultMsg=%s",
+              "mark={0},param={1},resultCode= {2},resultMsg={3}",
                 mark,
                 param,
                 e.getResultCode(),
@@ -59,7 +59,7 @@ public class ServiceTemplateImpl implements ServiceTemplate {
 
           } catch (Throwable e2) {
             /** 未知异常 */
-            LoggerUtil.error(LOGGER, e2, "mark=%s,param=%s", mark, param);
+            LoggerUtil.error(LOGGER, e2, "mark={0},param={1}", mark, param);
             status.setRollbackOnly();
 
             result.setErrorMessage(
@@ -96,7 +96,7 @@ public class ServiceTemplateImpl implements ServiceTemplate {
       /** 业务异常 */
       LoggerUtil.error(
           LOGGER,
-          "mark=%s,param=%s,resultCode= %s,resultMsg=%s",
+        "mark={0},param={1},resultCode= {2},resultMsg={3}",
           mark,
           param,
           e.getResultCode(),
@@ -104,7 +104,7 @@ public class ServiceTemplateImpl implements ServiceTemplate {
       result.setErrorMessage(e.getResultCode(), e.getResultMsg());
     } catch (Throwable e2) {
       /** 未知异常 */
-      LoggerUtil.error(LOGGER, e2, "mark=%s,param=%s", mark, param);
+      LoggerUtil.error(LOGGER, e2, "mark={0},param={1}", mark, param);
       result.setErrorMessage(
           ProcessxResultEnum.SYSTEM_ERROR.getCode(),
           ProcessxResultEnum.SYSTEM_ERROR.getDescription());
