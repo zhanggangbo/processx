@@ -1,0 +1,35 @@
+{
+  "version": 3,
+  "sources": [
+    "webpack:///src/view/home/home.vue",
+    "webpack:///./src/view/home/home.vue?6e6a",
+    "webpack:///./src/view/home/home.vue",
+    "webpack:///./src/view/home/index.js"
+  ],
+  "names": [
+    "home_home",
+    "render",
+    "_h",
+    "this",
+    "$createElement",
+    "_c",
+    "_self",
+    "staticClass",
+    "_v",
+    "staticRenderFns",
+    "view_home_home",
+    "__webpack_require__",
+    "normalizeComponent",
+    "ssrContext",
+    "home"
+  ],
+  "mappings": "0HAOA,ICJeA,GADEC,OAFjB,WAA0B,IAAaC,EAAbC,KAAaC,eAA0BC,EAAvCF,KAAuCG,MAAAD,IAAAH,EAAwB,OAAAG,EAAA,OAAiBE,YAAA,SAAmBF,EAAA,SAAnGF,KAAmGK,GAAA,uBAE5GC,oBCCjB,IAuBeC,EAvBUC,EAAQ,OAcjCC,IAEEZ,GATF,EAVA,SAAAa,GACEF,EAAQ,SAaV,KAEA,MAUgC,QCzBjBG",
+  "file": "static/js/4.b04814dc6692a79a2603.js",
+  "sourcesContent": [
+    "<template>\r\n  <div class=\"home\">\r\n    <Alert>欢迎使用processx</Alert>\r\n  </div>\r\n</template>\r\n\r\n<script>\r\nexport default {};\r\n</script>\r\n\r\n<style lang=\"less\">\r\n.home {\r\n  margin: 50px 10px;\r\n}\r\n</style>\r\n\n\n\n// WEBPACK FOOTER //\n// src/view/home/home.vue",
+    "var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:\"home\"},[_c('Alert',[_vm._v(\"欢迎使用processx\")])],1)}\nvar staticRenderFns = []\nvar esExports = { render: render, staticRenderFns: staticRenderFns }\nexport default esExports\n\n\n//////////////////\n// WEBPACK FOOTER\n// ./node_modules/_vue-loader@13.7.3@vue-loader/lib/template-compiler?{\"id\":\"data-v-d0603f0c\",\"hasScoped\":false,\"transformToRequire\":{\"video\":[\"src\",\"poster\"],\"source\":\"src\",\"img\":\"src\",\"image\":\"xlink:href\"},\"buble\":{\"transforms\":{}}}!./node_modules/_vue-loader@13.7.3@vue-loader/lib/selector.js?type=template&index=0!./src/view/home/home.vue\n// module id = null\n// module chunks = ",
+    "function injectStyle (ssrContext) {\n  require(\"!!../../../node_modules/_extract-text-webpack-plugin@3.0.2@extract-text-webpack-plugin/dist/loader.js?{\\\"omit\\\":1,\\\"remove\\\":true}!vue-style-loader!css-loader?{\\\"sourceMap\\\":true}!../../../node_modules/_vue-loader@13.7.3@vue-loader/lib/style-compiler/index?{\\\"vue\\\":true,\\\"id\\\":\\\"data-v-d0603f0c\\\",\\\"scoped\\\":false,\\\"hasInlineConfig\\\":false}!less-loader?{\\\"sourceMap\\\":true}!../../../node_modules/_vue-loader@13.7.3@vue-loader/lib/selector?type=styles&index=0!./home.vue\")\n}\nvar normalizeComponent = require(\"!../../../node_modules/_vue-loader@13.7.3@vue-loader/lib/component-normalizer\")\n/* script */\nexport * from \"!!babel-loader!../../../node_modules/_vue-loader@13.7.3@vue-loader/lib/selector?type=script&index=0!./home.vue\"\nimport __vue_script__ from \"!!babel-loader!../../../node_modules/_vue-loader@13.7.3@vue-loader/lib/selector?type=script&index=0!./home.vue\"\n/* template */\nimport __vue_template__ from \"!!../../../node_modules/_vue-loader@13.7.3@vue-loader/lib/template-compiler/index?{\\\"id\\\":\\\"data-v-d0603f0c\\\",\\\"hasScoped\\\":false,\\\"transformToRequire\\\":{\\\"video\\\":[\\\"src\\\",\\\"poster\\\"],\\\"source\\\":\\\"src\\\",\\\"img\\\":\\\"src\\\",\\\"image\\\":\\\"xlink:href\\\"},\\\"buble\\\":{\\\"transforms\\\":{}}}!../../../node_modules/_vue-loader@13.7.3@vue-loader/lib/selector?type=template&index=0!./home.vue\"\n/* template functional */\nvar __vue_template_functional__ = false\n/* styles */\nvar __vue_styles__ = injectStyle\n/* scopeId */\nvar __vue_scopeId__ = null\n/* moduleIdentifier (server only) */\nvar __vue_module_identifier__ = null\nvar Component = normalizeComponent(\n  __vue_script__,\n  __vue_template__,\n  __vue_template_functional__,\n  __vue_styles__,\n  __vue_scopeId__,\n  __vue_module_identifier__\n)\n\nexport default Component.exports\n\n\n\n//////////////////\n// WEBPACK FOOTER\n// ./src/view/home/home.vue\n// module id = null\n// module chunks = ",
+    "import home from './home.vue'\r\nexport default home\r\n\n\n\n// WEBPACK FOOTER //\n// ./src/view/home/index.js"
+  ],
+  "sourceRoot": ""
+}

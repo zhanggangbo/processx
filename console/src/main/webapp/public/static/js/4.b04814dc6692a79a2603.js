@@ -1,0 +1,2 @@
+webpackJsonp([4],{BMrg:function(e,t){},Kcrr:function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var n={render:function(){var e=this.$createElement,t=this._self._c||e;return t("div",{staticClass:"home"},[t("Alert",[this._v("欢迎使用processx")])],1)},staticRenderFns:[]};var s=r("C7Lr")({},n,!1,function(e){r("BMrg")},null,null).exports;t.default=s}});
+//# sourceMappingURL=4.b04814dc6692a79a2603.js.map
