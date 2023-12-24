@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core.service.model;
 
 import com.github.processx.core.service.enums.NodeInstanceStatusEnum;
@@ -20,6 +18,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 @Getter
 @Setter
 public class ProcessNodeInstanceModel implements Serializable {
+
   /** 主键 */
   private Long id;
 

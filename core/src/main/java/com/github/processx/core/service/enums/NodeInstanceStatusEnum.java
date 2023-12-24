@@ -1,6 +1,4 @@
-/**
- * Lingxi.com Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** Lingxi.com Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core.service.enums;
 
 import java.util.HashMap;
@@ -27,6 +25,7 @@ public enum NodeInstanceStatusEnum {
   ;
   /** 节点类型 */
   private Integer status;
+
   /** 节点类型描述 */
   private String desc;
 

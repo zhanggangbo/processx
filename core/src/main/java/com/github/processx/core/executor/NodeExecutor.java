@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core.executor;
 
 import com.github.processx.api.NodeContext;
@@ -14,6 +12,7 @@ import com.github.processx.core.NodeInstance;
  * @version v 0.1 2019/8/21 22:50
  */
 public interface NodeExecutor {
+
   /**
    * 节点执行
    *

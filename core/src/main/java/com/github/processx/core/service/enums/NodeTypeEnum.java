@@ -11,6 +11,7 @@ import java.util.Map;
  * @version v 0.1 2019/7/28 12:20
  */
 public enum NodeTypeEnum {
+
   /** 自动节点 */
   AUTO(1, "自动节点"),
   /** 触发节点 */
@@ -20,8 +21,10 @@ public enum NodeTypeEnum {
   /** 定时节点 */
   SCHEDULE(4, "定时节点"),
   ;
+
   /** 节点类型 */
   private Integer type;
+
   /** 节点类型描述 */
   private String desc;
 

@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.manager.service;
 
 import com.github.pagehelper.PageHelper;
@@ -23,12 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @version v 0.1 2019/10/3 17:15
  */
 public class ProcessServiceImpl implements ProcessService {
-  /** DAO接口 */
-  @Autowired
-  private ProcessDOMapper processDOMapper;
 
-  @Autowired
-  private ProcessNodeDOMapper processNodeDOMapper;
+  /** DAO接口 */
+  @Autowired private ProcessDOMapper processDOMapper;
+
+  @Autowired private ProcessNodeDOMapper processNodeDOMapper;
 
   /**
    * 分页获取流程信息
@@ -41,11 +38,11 @@ public class ProcessServiceImpl implements ProcessService {
   @Override
   public CommonPageResult<ProcessDO> findProcess(String queryData, int pageNum, int pageSize) {
     PageInfo<Object> pageInfo =
-      Optional.ofNullable(
-        PageHelper.startPage(pageNum, pageSize)
-          .doSelectPageInfo(() -> processDOMapper.selectByQueryData(queryData)))
-        .orElseThrow(
-          () -> new ProcessxException(ProcessxResultEnum.SYSTEM_ERROR, "获取流程分页数据失败"));
+        Optional.ofNullable(
+                PageHelper.startPage(pageNum, pageSize)
+                    .doSelectPageInfo(() -> processDOMapper.selectByQueryData(queryData)))
+            .orElseThrow(
+                () -> new ProcessxException(ProcessxResultEnum.SYSTEM_ERROR, "获取流程分页数据失败"));
 
     return new CommonPageResult(pageInfo.getList(), pageInfo.getTotal());
   }

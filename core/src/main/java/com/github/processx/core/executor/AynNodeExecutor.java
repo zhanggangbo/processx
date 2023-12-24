@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core.executor;
 
 import com.github.processx.api.NodeContext;
@@ -21,7 +19,7 @@ import java.util.concurrent.ExecutorService;
 public class AynNodeExecutor implements NodeExecutor {
 
   private static ExecutorService aynNodeExecutorThreadPool =
-    new MonitorThreadPoolExecutor(60, new ThreadFactoryBuilder("NodeExecutorThreadPool"));
+      new MonitorThreadPoolExecutor(60, new ThreadFactoryBuilder("NodeExecutorThreadPool"));
 
   /**
    * 节点执行
@@ -33,11 +31,11 @@ public class AynNodeExecutor implements NodeExecutor {
   public NodeEvent execute(NodeInstance nodeInstance, NodeContext nodeContext) {
 
     aynNodeExecutorThreadPool.submit(
-      () -> {
-        ProcessInstance processInstance = nodeInstance.getProcessInstance();
+        () -> {
+          ProcessInstance processInstance = nodeInstance.getProcessInstance();
 
-        processInstance.notifyEvent(ProcessInnerEvent.createResumeEvent(nodeInstance.getName()));
-      });
+          processInstance.notifyEvent(ProcessInnerEvent.createResumeEvent(nodeInstance.getName()));
+        });
 
     return null;
   }

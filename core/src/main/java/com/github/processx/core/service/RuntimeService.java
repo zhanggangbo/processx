@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core.service;
 
 import com.github.processx.core.service.model.ProcessNodeInstanceModel;
@@ -14,6 +12,7 @@ import java.util.List;
  * @version v 0.1 2019/8/21 21:07
  */
 public interface RuntimeService {
+
   /**
    * 查询流程节点实例
    *
@@ -52,7 +51,7 @@ public interface RuntimeService {
    * @return 是否更新成功
    */
   boolean updateNodeInstanceStatus(
-    Long processInstanceId, Long nodeId, String bizNo, Integer status);
+      Long processInstanceId, Long nodeId, String bizNo, Integer status);
 
   /**
    * 更新节点实例修改时间
@@ -65,5 +64,5 @@ public interface RuntimeService {
    * @return 是否更新成功
    */
   boolean updateNodeInstance4ModifiedTime(
-    Long processInstanceId, Long nodeId, String bizNo, Integer status, Date modifiedTime);
+      Long processInstanceId, Long nodeId, String bizNo, Integer status, Date modifiedTime);
 }

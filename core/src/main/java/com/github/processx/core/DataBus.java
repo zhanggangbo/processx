@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core;
 
 import com.github.processx.core.schedule.ScheduleResult;
@@ -17,18 +15,24 @@ import lombok.Setter;
 @Setter
 @Getter
 public class DataBus {
+
+  /** 线程上下文 */
   protected static ThreadLocal<DataBus> threadLocal = new ThreadLocal<>();
 
   /** 业务流水号 */
   private String bizNo;
+
   /** 流程入参 */
   private Map<String, Object> processInput;
+
   /** 流程触发入参 */
   private Map<String, Object> triggerInput;
+
   /** 定时任务执行结果 */
   private ScheduleResult scheduleResult;
+
   /** 流程实例 */
-  ProcessInstance processInstance;
+  private ProcessInstance processInstance;
 
   private Long onsetNodeId;
 
@@ -55,7 +59,7 @@ public class DataBus {
 
   /** 流程启动时，数据初始化 */
   public static DataBus init(
-    String bizNo, Map<String, Object> processInput, ProcessInstance processInstance) {
+      String bizNo, Map<String, Object> processInput, ProcessInstance processInstance) {
     return init(bizNo, processInput, processInput, processInstance);
   }
 
@@ -72,10 +76,10 @@ public class DataBus {
    * @param triggerInput 触发节点输入
    */
   private static DataBus init(
-    String bizNo,
-    Map<String, Object> processInput,
-    Map<String, Object> triggerInput,
-    ProcessInstance processInstance) {
+      String bizNo,
+      Map<String, Object> processInput,
+      Map<String, Object> triggerInput,
+      ProcessInstance processInstance) {
 
     threadLocal.remove();
 

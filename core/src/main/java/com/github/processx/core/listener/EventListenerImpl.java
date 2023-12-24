@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core.listener;
 
 import com.github.processx.api.event.Event;
@@ -18,10 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @version v 0.1 2019/8/17 16:08
  */
 public class EventListenerImpl implements EventListener {
-  @Autowired
-  private NodeEventHandle nodeEventHandle;
-  @Autowired
-  private ProcessInnerEventHandle processInnerEventHandle;
+
+  @Autowired private NodeEventHandle nodeEventHandle;
+  @Autowired private ProcessInnerEventHandle processInnerEventHandle;
 
   /**
    * 流程事件监听处理

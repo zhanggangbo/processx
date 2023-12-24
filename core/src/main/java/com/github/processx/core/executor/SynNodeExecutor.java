@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core.executor;
 
 import com.github.processx.api.Execution;
@@ -24,13 +22,11 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @version v 0.1 2019/8/21 22:54
  */
 public class SynNodeExecutor implements NodeExecutor {
-  /**
-   * 日志记录
-   */
+
+  /** 日志记录 */
   private static final Logger LOGGER = LogManager.getLogger(LoggerEnum.NODE_DIGEST.getLogger());
 
-  @Autowired
-  private RuntimeService runtimeService;
+  @Autowired private RuntimeService runtimeService;
   /**
    * 节点执行
    *
@@ -52,84 +48,84 @@ public class SynNodeExecutor implements NodeExecutor {
 
       end = System.currentTimeMillis() - begin;
 
-      //TODO 保存输出结果
+      // TODO 保存输出结果
 
       switch (nodeEvent.getEventType()) {
         case SUCCESS:
           LoggerUtil.info(
-            LOGGER,
-            "{0},{1},{2},{3}",
-            processInstance.getName(),
-            nodeInstance.getName(),
-            "SUCCESS",
-            end);
+              LOGGER,
+              "{0},{1},{2},{3}",
+              processInstance.getName(),
+              nodeInstance.getName(),
+              "SUCCESS",
+              end);
           // TODO 此方法需要优化
           runtimeService.updateNodeInstanceStatus(
-            processInstance.getProcessInstanceId(),
-            nodeInstance.getNodeId(),
-            nodeInstance.getBizNo(),
-            NodeInstanceStatusEnum.END.getStatus());
+              processInstance.getProcessInstanceId(),
+              nodeInstance.getNodeId(),
+              nodeInstance.getBizNo(),
+              NodeInstanceStatusEnum.END.getStatus());
           break;
         case WAIT:
           LoggerUtil.info(
-            LOGGER,
-            "{0},{1},{2},{3}",
-            processInstance.getName(),
-            nodeInstance.getName(),
-            "WAIT",
-            end);
+              LOGGER,
+              "{0},{1},{2},{3}",
+              processInstance.getName(),
+              nodeInstance.getName(),
+              "WAIT",
+              end);
           runtimeService.updateNodeInstanceStatus(
-            processInstance.getProcessInstanceId(),
-            nodeInstance.getNodeId(),
-            nodeInstance.getBizNo(),
-            NodeInstanceStatusEnum.WAIT.getStatus());
+              processInstance.getProcessInstanceId(),
+              nodeInstance.getNodeId(),
+              nodeInstance.getBizNo(),
+              NodeInstanceStatusEnum.WAIT.getStatus());
           break;
         case TERMINAL:
           LoggerUtil.info(
-            LOGGER,
-            "{0},{1},{2},{3}",
-            processInstance.getName(),
-            nodeInstance.getName(),
-            "TERMINAL",
-            end);
+              LOGGER,
+              "{0},{1},{2},{3}",
+              processInstance.getName(),
+              nodeInstance.getName(),
+              "TERMINAL",
+              end);
           runtimeService.updateNodeInstanceStatus(
-            processInstance.getProcessInstanceId(),
-            nodeInstance.getNodeId(),
-            nodeInstance.getBizNo(),
-            NodeInstanceStatusEnum.END.getStatus());
+              processInstance.getProcessInstanceId(),
+              nodeInstance.getNodeId(),
+              nodeInstance.getBizNo(),
+              NodeInstanceStatusEnum.END.getStatus());
           break;
 
         default:
           LoggerUtil.error(
-            LOGGER,
-            "{0},{1},{2},{3}",
-            processInstance.getName(),
-            nodeInstance.getName(),
-            "ERROR",
-            end);
+              LOGGER,
+              "{0},{1},{2},{3}",
+              processInstance.getName(),
+              nodeInstance.getName(),
+              "ERROR",
+              end);
           runtimeService.updateNodeInstanceStatus(
-            processInstance.getProcessInstanceId(),
-            nodeInstance.getNodeId(),
-            nodeInstance.getBizNo(),
-            NodeInstanceStatusEnum.ERROR.getStatus());
+              processInstance.getProcessInstanceId(),
+              nodeInstance.getNodeId(),
+              nodeInstance.getBizNo(),
+              NodeInstanceStatusEnum.ERROR.getStatus());
           break;
       }
 
     } catch (Exception e) {
       end = System.currentTimeMillis() - begin;
       LoggerUtil.error(
-        LOGGER,
-        "{0},{1},{2},{3}",
-        processInstance.getName(),
-        nodeInstance.getName(),
-        "ERROR",
-        end);
+          LOGGER,
+          "{0},{1},{2},{3}",
+          processInstance.getName(),
+          nodeInstance.getName(),
+          "ERROR",
+          end);
 
       runtimeService.updateNodeInstanceStatus(
-        processInstance.getProcessInstanceId(),
-        nodeInstance.getNodeId(),
-        nodeInstance.getBizNo(),
-        NodeInstanceStatusEnum.ERROR.getStatus());
+          processInstance.getProcessInstanceId(),
+          nodeInstance.getNodeId(),
+          nodeInstance.getBizNo(),
+          NodeInstanceStatusEnum.ERROR.getStatus());
 
       nodeEvent = NodeEvent.createFailEvent();
     }

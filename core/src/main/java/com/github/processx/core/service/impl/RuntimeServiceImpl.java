@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core.service.impl;
 
 import com.github.processx.common.bean.BeanCheckUtil;
@@ -24,15 +22,12 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @version v 0.1 2019/8/21 21:23
  */
 public class RuntimeServiceImpl implements RuntimeService {
-  /** 节点实例DAO接口 */
-  @Autowired
-  private ProcessNodeInstanceDOMapper processNodeInstanceDOMapper;
 
-  /**
-   * 流程实例DAO接口
-   */
-  @Autowired
-  private ProcessInstanceDOMapper processInstanceDOMapper;
+  /** 节点实例DAO接口 */
+  @Autowired private ProcessNodeInstanceDOMapper processNodeInstanceDOMapper;
+
+  /** 流程实例DAO接口 */
+  @Autowired private ProcessInstanceDOMapper processInstanceDOMapper;
 
   /**
    * 查询流程节点实例
@@ -44,9 +39,9 @@ public class RuntimeServiceImpl implements RuntimeService {
    */
   @Override
   public ProcessNodeInstanceModel queryNodeInstance(
-    Long processInstanceId, Long nodeId, String bizNo) {
+      Long processInstanceId, Long nodeId, String bizNo) {
     ProcessNodeInstanceDO record =
-      processNodeInstanceDOMapper.selectNodeInstance(processInstanceId, nodeId, bizNo);
+        processNodeInstanceDOMapper.selectNodeInstance(processInstanceId, nodeId, bizNo);
 
     if (record == null) {
       return null;
@@ -64,7 +59,7 @@ public class RuntimeServiceImpl implements RuntimeService {
   @Override
   public List<ProcessNodeInstanceModel> queryExecNodeInstance(String bizNo) {
     List<ProcessNodeInstanceDO> nodeInstanceList =
-      processNodeInstanceDOMapper.selectExecNodeInstance(bizNo);
+        processNodeInstanceDOMapper.selectExecNodeInstance(bizNo);
 
     if (BeanCheckUtil.checkNullOrEmpty(nodeInstanceList)) {
       return null;
@@ -108,10 +103,10 @@ public class RuntimeServiceImpl implements RuntimeService {
    */
   @Override
   public boolean updateNodeInstanceStatus(
-    Long processInstanceId, Long nodeId, String bizNo, Integer status) {
+      Long processInstanceId, Long nodeId, String bizNo, Integer status) {
     return processNodeInstanceDOMapper.updateNodeInstanceStatus(
-      processInstanceId, nodeId, bizNo, status)
-      > 0;
+            processInstanceId, nodeId, bizNo, status)
+        > 0;
   }
 
   /**
@@ -126,15 +121,13 @@ public class RuntimeServiceImpl implements RuntimeService {
    */
   @Override
   public boolean updateNodeInstance4ModifiedTime(
-    Long processInstanceId, Long nodeId, String bizNo, Integer status, Date modifiedTime) {
+      Long processInstanceId, Long nodeId, String bizNo, Integer status, Date modifiedTime) {
     return processNodeInstanceDOMapper.updateNodeInstance4ModifiedTime(
-      processInstanceId, nodeId, bizNo, status, modifiedTime)
-      > 0;
+            processInstanceId, nodeId, bizNo, status, modifiedTime)
+        > 0;
   }
 
-  /**
-   * getNodeInstanceModel
-   */
+  /** getNodeInstanceModel */
   private ProcessNodeInstanceModel getNodeInstanceModel(ProcessNodeInstanceDO record) {
     ProcessNodeInstanceModel model = new ProcessNodeInstanceModel();
     model.setId(record.getId());
@@ -142,7 +135,7 @@ public class RuntimeServiceImpl implements RuntimeService {
     model.setNodeId(record.getNodeId());
     model.setBizNo(record.getBizNo());
     NodeInstanceStatusEnum nodeInstanceStatusEnum =
-      NodeInstanceStatusEnum.getNodeInstanceStatusEnumByStatus(record.getStatus());
+        NodeInstanceStatusEnum.getNodeInstanceStatusEnumByStatus(record.getStatus());
     if (nodeInstanceStatusEnum == null) {
       throw new ProcessxException(ProcessxResultEnum.ILLEGAL_ARGUMENT, "非法的节点实例执行状态");
     }

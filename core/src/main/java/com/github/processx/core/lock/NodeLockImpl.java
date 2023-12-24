@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core.lock;
 
 import com.github.processx.core.ProcessLoader;
@@ -20,9 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @version v 0.1 2019/8/18 17:11
  */
 public class NodeLockImpl implements NodeLock {
+
   /** 业务运行时服务接口 */
-  @Autowired
-  private RuntimeService runtimeService;
+  @Autowired private RuntimeService runtimeService;
 
   /**
    * 节点锁
@@ -56,11 +54,11 @@ public class NodeLockImpl implements NodeLock {
    */
   @Override
   public boolean getLock(
-    Long processInstanceId,
-    Long nodeId,
-    String bizNo,
-    Boolean isProtected,
-    ProcessFeature processFeature) {
+      Long processInstanceId,
+      Long nodeId,
+      String bizNo,
+      Boolean isProtected,
+      ProcessFeature processFeature) {
     // 是否记录节点实例
     if (!processFeature.getRecordNodeInstance()) {
       return true;
@@ -68,7 +66,7 @@ public class NodeLockImpl implements NodeLock {
 
     // 查询流程节点实例记录
     ProcessNodeInstanceModel nodeInstance =
-      runtimeService.queryNodeInstance(processInstanceId, nodeId, bizNo);
+        runtimeService.queryNodeInstance(processInstanceId, nodeId, bizNo);
 
     // 不存在直接新增
     if (nodeInstance == null) {
@@ -78,7 +76,7 @@ public class NodeLockImpl implements NodeLock {
     // 不保护更新状态为START，节点重新执行
     if (!isProtected) {
       return runtimeService.updateNodeInstanceStatus(
-        processInstanceId, nodeId, bizNo, NodeInstanceStatusEnum.START.getStatus());
+          processInstanceId, nodeId, bizNo, NodeInstanceStatusEnum.START.getStatus());
     }
 
     boolean lock;
@@ -90,12 +88,12 @@ public class NodeLockImpl implements NodeLock {
         // 判断节点运行是否超时
         if (System.currentTimeMillis() - nodeInstance.getModifiedTime().getTime() > maxExeTime) {
           lock =
-            runtimeService.updateNodeInstance4ModifiedTime(
-              processInstanceId,
-              nodeId,
-              bizNo,
-              NodeInstanceStatusEnum.START.getStatus(),
-              nodeInstance.getModifiedTime());
+              runtimeService.updateNodeInstance4ModifiedTime(
+                  processInstanceId,
+                  nodeId,
+                  bizNo,
+                  NodeInstanceStatusEnum.START.getStatus(),
+                  nodeInstance.getModifiedTime());
         } else {
           throw new NodeRunningException("获取执行锁失败，节点正在运行中...");
         }
@@ -104,8 +102,8 @@ public class NodeLockImpl implements NodeLock {
         throw new NodeCompleteException("获取执行锁失败，节点执行已完成");
       default:
         lock =
-          runtimeService.updateNodeInstanceStatus(
-            processInstanceId, nodeId, bizNo, NodeInstanceStatusEnum.START.getStatus());
+            runtimeService.updateNodeInstanceStatus(
+                processInstanceId, nodeId, bizNo, NodeInstanceStatusEnum.START.getStatus());
         break;
     }
 

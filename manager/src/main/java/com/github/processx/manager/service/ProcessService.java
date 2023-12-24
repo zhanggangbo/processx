@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.manager.service;
 
 import com.github.processx.dal.dataobjects.ProcessDO;
@@ -15,6 +13,7 @@ import java.util.List;
  * @version v 0.1 2019/10/3 17:09
  */
 public interface ProcessService {
+
   /**
    * 分页获取流程信息
    *

@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core;
 
 /**
@@ -9,5 +7,4 @@ package com.github.processx.core;
  * @author zhanggangbo
  * @version v 0.1 2019/8/12 23:59
  */
-public class ProsessListener {
-}
+public class ProsessListener {}

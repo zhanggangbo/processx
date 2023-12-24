@@ -16,6 +16,7 @@ public class ProcessxException extends RuntimeException {
 
   /** 结果码 */
   private String resultCode = "UN_KNOWN_EXCEPTION";
+
   /** 结果信息 */
   private String resultMsg = "未知异常";
 

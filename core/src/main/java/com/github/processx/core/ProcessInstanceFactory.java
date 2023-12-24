@@ -68,14 +68,14 @@ public class ProcessInstanceFactory {
         NodeInstance nodeInstance = entry.getValue();
         List<NodeInstance> nextNodeInstanceList = nodeInstance.getNextNodeInstanceList();
         if (BeanCheckUtil.checkNullOrEmpty(nextNodeInstanceList)
-          && nodeInstance.getNodeType() == NodeTypeEnum.AUTO) {
+            && nodeInstance.getNodeType() == NodeTypeEnum.AUTO) {
           nodeInstance.setEnd(true);
           process.setEndNode(nodeInstance);
         }
 
         List<NodeInstance> preNodeInstanceList = nodeInstance.getPreNodeInstanceList();
         if (BeanCheckUtil.checkNullOrEmpty(preNodeInstanceList)
-          && nodeInstance.getNodeType() == NodeTypeEnum.AUTO) {
+            && nodeInstance.getNodeType() == NodeTypeEnum.AUTO) {
           nodeInstance.setStart(true);
           process.setStartNode(nodeInstance);
         }

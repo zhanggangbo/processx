@@ -1,6 +1,4 @@
-/**
- * Lingxi.com Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** Lingxi.com Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core.schedule.enums;
 
 import lombok.Getter;
@@ -13,13 +11,16 @@ import lombok.Getter;
  */
 @Getter
 public enum StatusEnum {
+
   /** 定时任务初始准备 */
   READY("READY", "定时任务初始准备"),
+
   /** 定时任务运行中 */
   RUNNING("RUNNING", "定时任务运行中"),
   ;
   /** 定时任务执行状态 */
   private String status;
+
   /** 定时任务执行状态描述 */
   private String desc;
 

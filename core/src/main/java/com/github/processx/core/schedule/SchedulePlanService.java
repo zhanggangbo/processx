@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core.schedule;
 
 import com.github.processx.dal.dataobjects.ProcessSchedulePlanDO;
@@ -14,6 +12,7 @@ import java.util.List;
  * @version v 0.1 2019/8/17 17:31
  */
 public interface SchedulePlanService {
+
   /**
    * 捞取执行时间小于当前时间的定时任务
    *
@@ -50,7 +49,7 @@ public interface SchedulePlanService {
    * @return 是否修改成功
    */
   boolean moditySchedulePlanupdateRunningModifiedTime4Lock(
-    String bizNo, Long nodeId, Date modifiedTime);
+      String bizNo, Long nodeId, Date modifiedTime);
 
   /**
    * 删除定时任务

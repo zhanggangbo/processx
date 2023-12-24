@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core;
 
 import com.github.processx.api.event.ProcessInnerEvent;
@@ -20,11 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @version v 0.1 2019/8/17 15:49
  */
 public class ProcessEngineImpl implements ProcessEngine {
-  /**
-   * 流程追踪器
-   */
-  @Autowired
-  private ProcessTracker processTracker;
+
+  /** 流程追踪器 */
+  @Autowired private ProcessTracker processTracker;
 
   /**
    * 流程启动
@@ -37,7 +33,7 @@ public class ProcessEngineImpl implements ProcessEngine {
    */
   @Override
   public ProcessResult start(
-    String processName, String bizNo, Map<String, Object> inputParam, ProsessListener listener) {
+      String processName, String bizNo, Map<String, Object> inputParam, ProsessListener listener) {
     try {
       // 根据流程名称获取流程实例
       ProcessDefinition processDefinition = ProcessLoader.getLastProcessDefinition(processName);
@@ -53,7 +49,7 @@ public class ProcessEngineImpl implements ProcessEngine {
 
       // 从头节点触发流程启动
       processInstance.notifyEvent(
-        ProcessInnerEvent.createStartEvent(processInstance.getStartNode().getName()));
+          ProcessInnerEvent.createStartEvent(processInstance.getStartNode().getName()));
 
       // 日志记录
       ProcessResult result = new ProcessResult();
@@ -69,11 +65,11 @@ public class ProcessEngineImpl implements ProcessEngine {
   /** 触发执行某个节点 */
   @Override
   public ProcessResult call(
-    String processName,
-    String bizNo,
-    String nodeName,
-    Map<String, Object> triggerParam,
-    ProsessListener listener) {
+      String processName,
+      String bizNo,
+      String nodeName,
+      Map<String, Object> triggerParam,
+      ProsessListener listener) {
     try {
       // 根据流程名称获取流程实例
       ProcessDefinition processDefinition = ProcessLoader.getLastProcessDefinition(processName);
@@ -104,11 +100,11 @@ public class ProcessEngineImpl implements ProcessEngine {
   /** 重新执行某个节点 */
   @Override
   public ProcessResult resume(
-    String processName,
-    String bizNo,
-    String nodeName,
-    Map<String, Object> inputParam,
-    ProsessListener listener) {
+      String processName,
+      String bizNo,
+      String nodeName,
+      Map<String, Object> inputParam,
+      ProsessListener listener) {
     return null;
   }
 }

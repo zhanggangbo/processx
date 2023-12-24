@@ -23,8 +23,10 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @version v 0.1 2019/7/28 14:23
  */
 public class ProcessConfigServiceImpl implements ProcessConfigService {
+
   /** 流程信息DAO接口 */
   @Autowired private ProcessDOMapper processDOMapper;
+
   /** 流程节点信息DAO接口 */
   @Autowired private ProcessNodeDOMapper processNodeDOMapper;
 

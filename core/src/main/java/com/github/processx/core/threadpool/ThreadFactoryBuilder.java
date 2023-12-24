@@ -1,11 +1,8 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core.threadpool;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.util.concurrent.MoreExecutors;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.Executors;
@@ -63,15 +60,15 @@ public final class ThreadFactoryBuilder {
     // Thread#setPriority() already checks for validity. These error messages
     // are nicer though and will fail-fast.
     checkArgument(
-      priority >= Thread.MIN_PRIORITY,
-      "Thread priority (%s) must be >= %s",
-      priority,
-      Thread.MIN_PRIORITY);
+        priority >= Thread.MIN_PRIORITY,
+        "Thread priority (%s) must be >= %s",
+        priority,
+        Thread.MIN_PRIORITY);
     checkArgument(
-      priority <= Thread.MAX_PRIORITY,
-      "Thread priority (%s) must be <= %s",
-      priority,
-      Thread.MAX_PRIORITY);
+        priority <= Thread.MAX_PRIORITY,
+        "Thread priority (%s) must be <= %s",
+        priority,
+        Thread.MAX_PRIORITY);
     this.priority = priority;
     return this;
   }
@@ -84,7 +81,7 @@ public final class ThreadFactoryBuilder {
    * @return this for the builder pattern
    */
   public ThreadFactoryBuilder setUncaughtExceptionHandler(
-    UncaughtExceptionHandler uncaughtExceptionHandler) {
+      UncaughtExceptionHandler uncaughtExceptionHandler) {
     this.uncaughtExceptionHandler = checkNotNull(uncaughtExceptionHandler);
     return this;
   }
@@ -120,9 +117,9 @@ public final class ThreadFactoryBuilder {
     final Integer priority = builder.priority;
     final UncaughtExceptionHandler uncaughtExceptionHandler = builder.uncaughtExceptionHandler;
     final ThreadFactory backingThreadFactory =
-      (builder.backingThreadFactory != null)
-        ? builder.backingThreadFactory
-        : Executors.defaultThreadFactory();
+        (builder.backingThreadFactory != null)
+            ? builder.backingThreadFactory
+            : Executors.defaultThreadFactory();
 
     return (runnable) -> {
       Thread thread = backingThreadFactory.newThread(runnable);

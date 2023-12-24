@@ -17,6 +17,7 @@ import org.springframework.transaction.support.TransactionTemplate;
  * @version v 0.1 2019/7/28 12:20
  */
 public class ServiceTemplateImpl implements ServiceTemplate {
+
   /** 日志记录 */
   private static final Logger LOGGER = LogManager.getLogger(ServiceTemplateImpl.class);
   /** processx数据库事务模板 */
@@ -50,7 +51,7 @@ public class ServiceTemplateImpl implements ServiceTemplate {
             /** 业务异常 */
             LoggerUtil.error(
                 LOGGER,
-              "mark={0},param={1},resultCode= {2},resultMsg={3}",
+                "mark={0},param={1},resultCode= {2},resultMsg={3}",
                 mark,
                 param,
                 e.getResultCode(),
@@ -96,7 +97,7 @@ public class ServiceTemplateImpl implements ServiceTemplate {
       /** 业务异常 */
       LoggerUtil.error(
           LOGGER,
-        "mark={0},param={1},resultCode= {2},resultMsg={3}",
+          "mark={0},param={1},resultCode= {2},resultMsg={3}",
           mark,
           param,
           e.getResultCode(),

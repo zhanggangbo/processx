@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core.threadpool;
 
 import com.github.processx.common.enums.LoggerEnum;
@@ -23,13 +21,15 @@ import org.apache.logging.log4j.Logger;
  * @version v 0.1 2019/9/14 23:02
  */
 public class MonitorThreadPoolExecutor extends ThreadPoolExecutor {
+
   /** 日志记录 */
   private static final Logger LOGGER =
-    LogManager.getLogger(LoggerEnum.THREAD_POOL_DIGEST.getLogger());
+      LogManager.getLogger(LoggerEnum.THREAD_POOL_DIGEST.getLogger());
 
   /** 线程池名称 */
   private String threadPoolName;
 
+  /** 用来对线程池实时参数进行统计 */
   private ScheduledExecutorService scheduledExecutorService;
 
   /**
@@ -40,17 +40,17 @@ public class MonitorThreadPoolExecutor extends ThreadPoolExecutor {
    */
   public MonitorThreadPoolExecutor(int nThreads, ThreadFactoryBuilder threadFactoryBuilder) {
     this(
-      nThreads,
-      nThreads,
-      0L,
-      TimeUnit.MILLISECONDS,
-      new LinkedBlockingQueue<>(),
-      threadFactoryBuilder.build(),
-      new AbortPolicy());
+        nThreads,
+        nThreads,
+        0L,
+        TimeUnit.MILLISECONDS,
+        new LinkedBlockingQueue<>(),
+        threadFactoryBuilder.build(),
+        new AbortPolicy());
 
     scheduledExecutorService = new ScheduledThreadPoolExecutor(1);
     scheduledExecutorService.scheduleWithFixedDelay(
-      new ThreadPoolStatistics(), 5, 10, TimeUnit.SECONDS);
+        new ThreadPoolStatistics(), 5, 10, TimeUnit.SECONDS);
 
     threadPoolName = threadFactoryBuilder.getThreadPoolName();
   }
@@ -78,13 +78,13 @@ public class MonitorThreadPoolExecutor extends ThreadPoolExecutor {
    *     is null
    */
   public MonitorThreadPoolExecutor(
-    int corePoolSize,
-    int maximumPoolSize,
-    long keepAliveTime,
-    TimeUnit unit,
-    BlockingQueue<Runnable> workQueue,
-    ThreadFactory threadFactory,
-    RejectedExecutionHandler handler) {
+      int corePoolSize,
+      int maximumPoolSize,
+      long keepAliveTime,
+      TimeUnit unit,
+      BlockingQueue<Runnable> workQueue,
+      ThreadFactory threadFactory,
+      RejectedExecutionHandler handler) {
     super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
   }
 
@@ -109,15 +109,15 @@ public class MonitorThreadPoolExecutor extends ThreadPoolExecutor {
        * <p>线程池名称, 线程池主线程数, 线程池最大线程数, 当前线程池数, 线程池中当前正在执行的任务的工作线程数, 当前工作队列实例数, 当前线程到到目前为止已经处理完毕的任务数
        */
       LoggerUtil.info(
-        LOGGER,
-        "{0},{1},{2},{3},{4},{5},{6}",
-        threadPoolName,
-        getCorePoolSize(),
-        getMaximumPoolSize(),
-        getPoolSize(),
-        getActiveCount(),
-        getQueue().size(),
-        getCompletedTaskCount());
+          LOGGER,
+          "{0},{1},{2},{3},{4},{5},{6}",
+          threadPoolName,
+          getCorePoolSize(),
+          getMaximumPoolSize(),
+          getPoolSize(),
+          getActiveCount(),
+          getQueue().size(),
+          getCompletedTaskCount());
     }
   }
 }

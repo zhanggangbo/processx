@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.manager.service.result;
 
 import java.util.List;
@@ -18,6 +16,7 @@ import lombok.Setter;
 public class CommonPageResult<T> {
   /** 分页数据 */
   private List<T> pageData;
+
   /** 总页数 */
   private long total;
 

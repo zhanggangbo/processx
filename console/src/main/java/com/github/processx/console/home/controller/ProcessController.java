@@ -3,7 +3,7 @@ package com.github.processx.console.home.controller;
 
 import com.github.processx.common.exception.ProcessxException;
 import com.github.processx.common.exception.ProcessxResultEnum;
-import com.github.processx.console.home.util.WebUtils;
+import com.github.processx.console.home.controller.base.BaseController;
 import com.github.processx.manager.service.ProcessService;
 import com.github.processx.manager.service.result.CommonWebResult;
 import java.text.MessageFormat;
@@ -37,7 +37,7 @@ public class ProcessController extends BaseController {
   @RequestMapping(
       value = {"/page.json"},
       method = RequestMethod.GET)
-  public void findProcess(
+  public CommonWebResult findProcess(
       HttpServletResponse response,
       @RequestParam(value = "queryData") String queryData,
       @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
@@ -50,7 +50,7 @@ public class ProcessController extends BaseController {
             "queryData={0},pageNum={1},pageSize={2}", queryData, pageNum, pageSize),
         () -> result.setData(processService.findProcess(queryData, pageNum, pageSize)));
 
-    WebUtils.renderJson(response, result);
+    return result;
   }
 
   /**
@@ -62,7 +62,7 @@ public class ProcessController extends BaseController {
   @RequestMapping(
       value = {"/node.json"},
       method = RequestMethod.GET)
-  public void findNode(
+  public CommonWebResult findNode(
       HttpServletResponse response, @RequestParam(value = "processId") Long processId) {
     CommonWebResult result = new CommonWebResult();
     serviceTemplate.executeWithoutTransaction(
@@ -77,7 +77,6 @@ public class ProcessController extends BaseController {
           result.setData(processService.findProcessNode(processId));
         });
 
-    WebUtils.renderJson(response, result);
+    return result;
   }
-
 }

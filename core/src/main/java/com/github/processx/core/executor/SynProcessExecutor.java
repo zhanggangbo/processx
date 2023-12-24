@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core.executor;
 
 import com.github.processx.api.event.ProcessInnerEvent;
@@ -22,20 +20,18 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
+ * 节点同步执行器
+ *
  * @author zhanggangbo
  * @version v 0.1 2019/9/4 0:07
  */
 public class SynProcessExecutor {
-  /**
-   * 日志记录
-   */
+
+  /** 日志记录 */
   private static final Logger LOGGER = LogManager.getLogger(LoggerEnum.PROCESS_DIGEST.getLogger());
 
-  /**
-   * 流程追踪器
-   */
-  @Autowired
-  private ProcessTracker processTracker;
+  /** 流程追踪器 */
+  @Autowired private ProcessTracker processTracker;
   /**
    * 定时节点执行
    *
@@ -66,7 +62,7 @@ public class SynProcessExecutor {
       DataBus.init(bizNo, processInstance);
 
       processInstance.notifyEvent(
-        ProcessInnerEvent.createScheduleEvent(nodeDefinition.getName(), execCounts));
+          ProcessInnerEvent.createScheduleEvent(nodeDefinition.getName(), execCounts));
 
       ScheduleResult scheduleResult = DataBus.get().getScheduleResult();
       return scheduleResult;

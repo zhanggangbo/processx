@@ -1,5 +1,5 @@
 /** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
-package com.github.processx.console.home.controller;
+package com.github.processx.console.home.controller.base;
 
 import com.github.processx.manager.service.template.ServiceTemplate;
 import org.springframework.beans.factory.annotation.Autowired;

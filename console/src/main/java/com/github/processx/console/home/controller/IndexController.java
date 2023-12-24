@@ -1,6 +1,7 @@
 /** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.console.home.controller;
 
+import com.github.processx.console.home.controller.base.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

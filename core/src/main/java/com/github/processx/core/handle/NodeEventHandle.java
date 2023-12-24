@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core.handle;
 
 import com.alibaba.fastjson.JSONObject;
@@ -35,25 +33,18 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @version v 0.1 2019/8/17 16:48
  */
 public class NodeEventHandle implements EventHandle {
-  /**
-   * 日志记录
-   */
+
+  /** 日志记录 */
   private static final Logger LOGGER = LogManager.getLogger(LoggerEnum.NODE_DIGEST.getLogger());
 
-  /**
-   * 节点异步执行器
-   */
-  @Autowired
-  private AynNodeExecutor aynNodeExecutor;
+  /** 节点异步执行器 */
+  @Autowired private AynNodeExecutor aynNodeExecutor;
 
-  @Autowired
-  SchedulePlanService processSchedulePlanService;
+  @Autowired SchedulePlanService processSchedulePlanService;
 
-  @Autowired
-  ProcessTriggerResultHandler processTriggerResultHandler;
+  @Autowired ProcessTriggerResultHandler processTriggerResultHandler;
 
-  @Autowired
-  ProcessInnerEventHandle processInnerEventHandle;
+  @Autowired ProcessInnerEventHandle processInnerEventHandle;
 
   /**
    * 流程节点事件处理
@@ -113,9 +104,9 @@ public class NodeEventHandle implements EventHandle {
       // 定时节点，写入定时任务表等待定时调度
       processSchedulePlanService.addOrUpdateSchedulePlan(
           nextNodeInstance.getProcessInstance().getProcessInstanceId(),
-        nextNodeInstance.getBizNo(),
-        nextNodeInstance.getNodeId(),
-        execute.getPeriod());
+          nextNodeInstance.getBizNo(),
+          nextNodeInstance.getNodeId(),
+          execute.getPeriod());
       return;
     } else if (nextNodeInstance.getNodeType() == NodeTypeEnum.AUTO
         || nextNodeInstance.getNodeType() == NodeTypeEnum.GATEWAY) {
@@ -138,7 +129,7 @@ public class NodeEventHandle implements EventHandle {
       Long onsetNodeId = DataBus.get().getOnsetNodeId();
       if (onsetNodeId != null && processInstance.getProcessFeature().getRecordTriggerResult()) {
         TriggerResult triggerResult =
-          processTriggerResultHandler.selectTriggerResult(bizNo, onsetNodeId);
+            processTriggerResultHandler.selectTriggerResult(bizNo, onsetNodeId);
         if (triggerResult != null) {
           String value = triggerResult.getValue();
           DataBus.get().setLastOutput(JSONObject.parseObject(value, Map.class));
@@ -149,25 +140,21 @@ public class NodeEventHandle implements EventHandle {
     handleSuccessEvent(processInstance, event);
   }
 
-  /**
-   * 等待事件处理
-   */
+  /** 等待事件处理 */
   private void handleWaitEvent(ProcessInstance processInstance, NodeEvent event) {
     if (event.getException() != null) {
       loggerNodeError(processInstance, event);
       throw new ProcessxException(
-        ProcessxResultEnum.BIZ_INNER_EXCEPTION, "流程节点执行等待中...", event.getException());
+          ProcessxResultEnum.BIZ_INNER_EXCEPTION, "流程节点执行等待中...", event.getException());
     }
   }
 
-  /**
-   * 失败事件处理
-   */
+  /** 失败事件处理 */
   private void handleFailEvent(ProcessInstance processInstance, NodeEvent event) {
     if (event.getException() != null) {
       loggerNodeError(processInstance, event);
       throw new ProcessxException(
-        ProcessxResultEnum.BIZ_INNER_EXCEPTION, "流程节点执行失败", event.getException());
+          ProcessxResultEnum.BIZ_INNER_EXCEPTION, "流程节点执行失败", event.getException());
     }
   }
 
@@ -178,20 +165,16 @@ public class NodeEventHandle implements EventHandle {
    */
   private void handleTerminalEvent(ProcessInstance processInstance) {
     processInnerEventHandle.handle(
-      processInstance,
-      ProcessInnerEvent.createTerminalEvent(processInstance.getEndNode().getName()));
+        processInstance,
+        ProcessInnerEvent.createTerminalEvent(processInstance.getEndNode().getName()));
   }
 
-  /**
-   * 运行中事件处理
-   */
+  /** 运行中事件处理 */
   private void handleRunningEvent() {
     throw new ProcessxException(ProcessxResultEnum.NODE_RUNNING);
   }
 
-  /**
-   * 日志记录
-   */
+  /** 日志记录 */
   private void loggerNodeError(ProcessInstance processInstance, NodeEvent event) {
     String processName = processInstance.getName();
     String bizNo = processInstance.getBizNo();
@@ -201,17 +184,15 @@ public class NodeEventHandle implements EventHandle {
     }
 
     LoggerUtil.error(
-      LOGGER,
-      event.getException(),
-      "processName:{0},bizNo:{1},nodeName:{2}",
-      processName,
-      bizNo,
-      nodeName);
+        LOGGER,
+        event.getException(),
+        "processName:{0},bizNo:{1},nodeName:{2}",
+        processName,
+        bizNo,
+        nodeName);
   }
 
-  /**
-   * 获取下一个流程节点
-   */
+  /** 获取下一个流程节点 */
   private NodeInstance getNextNodeInstance(ProcessInstance processInstance, NodeEvent nodeEvent) {
     NodeInstance nextNode = null;
     NodeInstance currentNode = processInstance.getCurrentNode();

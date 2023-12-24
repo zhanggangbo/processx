@@ -20,7 +20,9 @@ public class BeanFactoryUtil implements BeanFactoryAware {
   /** 日志记录 */
   private static final Logger LOGGER = LogManager.getLogger(BeanFactoryUtil.class);
 
-  /** @see org.springframework.beans.factory.BeanFactory */
+  /**
+   * @see org.springframework.beans.factory.BeanFactory
+   */
   private BeanFactory beanFactory;
 
   /**

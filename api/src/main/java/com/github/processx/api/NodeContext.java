@@ -13,8 +13,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class NodeContext {
+
   /** 执行次数 */
   private Integer execCount;
+
   /** 失败次数 */
   private Integer failCount;
 }

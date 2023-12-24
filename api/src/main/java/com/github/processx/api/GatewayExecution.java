@@ -16,5 +16,6 @@ public interface GatewayExecution extends Execution {
    * @param context 节点上下文
    * @return
    */
+  @Override
   GatewayNodeEvent execute(NodeContext context);
 }

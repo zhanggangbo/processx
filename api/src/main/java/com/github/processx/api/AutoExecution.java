@@ -17,5 +17,6 @@ public interface AutoExecution extends Execution {
    * @param context 节点上下文
    * @return
    */
+  @Override
   AutoNodeEvent execute(NodeContext context);
 }

@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core;
 
 import lombok.Getter;
@@ -15,6 +13,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 @Getter
 @Setter
 public class ProcessResult {
+
   /** 业务流水号 */
   private String bizNo;
 

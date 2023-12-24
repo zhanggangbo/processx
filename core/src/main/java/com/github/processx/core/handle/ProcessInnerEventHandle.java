@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core.handle;
 
 import com.github.processx.api.event.Event;
@@ -14,6 +12,7 @@ import com.github.processx.core.ProcessInstance;
  * @version v 0.1 2019/8/17 16:34
  */
 public class ProcessInnerEventHandle implements EventHandle {
+
   /**
    * 流程事件处理
    *
@@ -34,7 +33,7 @@ public class ProcessInnerEventHandle implements EventHandle {
       case SCHEDULE:
         processInstance.execScheduleNode(processInnerEvent.getNodeName());
         break;
-      // START or TERMINAL
+        // START or TERMINAL
       default:
         processInstance.execAutoNode(processInnerEvent.getNodeName());
         break;

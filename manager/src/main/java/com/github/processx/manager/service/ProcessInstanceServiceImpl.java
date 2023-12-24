@@ -1,7 +1,4 @@
-/**
- * GitHub. Inc.
- * Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.manager.service;
 
 import com.github.pagehelper.PageHelper;
@@ -22,14 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @version v 0.1 2019/10/7 9:47
  */
 public class ProcessInstanceServiceImpl implements ProcessInstanceService {
-  /**
-   * DAO接口
-   */
-  @Autowired
-  private ProcessInstanceDOMapper processInstanceDOMapper;
 
-  @Autowired
-  private ProcessNodeInstanceDOMapper processNodeInstanceDOMapper;
+  /** DAO接口 */
+  @Autowired private ProcessInstanceDOMapper processInstanceDOMapper;
+
+  @Autowired private ProcessNodeInstanceDOMapper processNodeInstanceDOMapper;
 
   /**
    * 根据业务流水号获取流程实例信息
@@ -41,13 +35,13 @@ public class ProcessInstanceServiceImpl implements ProcessInstanceService {
    */
   @Override
   public CommonPageResult<ProcessInstanceDO> findProcessInstance(
-    String queryData, int pageNum, int pageSize) {
+      String queryData, int pageNum, int pageSize) {
     PageInfo<Object> pageInfo =
-      Optional.ofNullable(
-        PageHelper.startPage(pageNum, pageSize)
-          .doSelectPageInfo(() -> processInstanceDOMapper.selectByQueryData(queryData)))
-        .orElseThrow(
-          () -> new ProcessxException(ProcessxResultEnum.SYSTEM_ERROR, "获取流程实例分页数据失败"));
+        Optional.ofNullable(
+                PageHelper.startPage(pageNum, pageSize)
+                    .doSelectPageInfo(() -> processInstanceDOMapper.selectByQueryData(queryData)))
+            .orElseThrow(
+                () -> new ProcessxException(ProcessxResultEnum.SYSTEM_ERROR, "获取流程实例分页数据失败"));
 
     return new CommonPageResult(pageInfo.getList(), pageInfo.getTotal());
   }

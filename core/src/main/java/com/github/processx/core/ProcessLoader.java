@@ -43,7 +43,9 @@ public class ProcessLoader implements InitializingBean, ApplicationContextAware 
   /** 日志记录 */
   private static final Logger LOGGER = LogManager.getLogger(ProcessLoader.class);
 
-  /** @see org.springframework.context.ApplicationContext */
+  /**
+   * @see org.springframework.context.ApplicationContext
+   */
   private static ApplicationContext applicationContext;
 
   /** 流程配置服务接口 */
@@ -52,11 +54,9 @@ public class ProcessLoader implements InitializingBean, ApplicationContextAware 
   /** 流程缓存 key：id */
   private static Map<Long, ProcessDefinition> ALL_PROCESS_DEFINITION_MAP = new ConcurrentHashMap();
 
-  /**
-   * 流程缓存 key：最终版本流程
-   */
+  /** 流程缓存 key：最终版本流程 */
   private static Map<String, ProcessDefinition> LAST_PROCESS_DEFINITION_MAP =
-    new ConcurrentHashMap();
+      new ConcurrentHashMap();
 
   /** 节点缓存 */
   private static Map<Long, NodeDefinition> NODE_DEFINITION_MAP = new ConcurrentHashMap();

@@ -12,6 +12,7 @@ import com.github.processx.core.service.model.ProcessFeature;
  * @version v 0.1 2019/8/18 17:10
  */
 public interface NodeLock {
+  
   /**
    * 节点锁
    *

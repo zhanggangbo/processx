@@ -16,5 +16,6 @@ public interface TriggerExecution extends Execution {
    * @param context 节点上下文
    * @return
    */
+  @Override
   TriggerNodeEvent execute(NodeContext context);
 }

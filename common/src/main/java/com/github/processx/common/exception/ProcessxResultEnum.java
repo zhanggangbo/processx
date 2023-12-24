@@ -39,19 +39,13 @@ public enum ProcessxResultEnum {
   /** 执行组件不存在 */
   EXECUTE_COMPOMENT_NO_EXIST("EXECUTE_COMPOMENT_NO_EXIST", "执行组件不存在"),
 
-  /**
-   * 下一个执行节点不存在
-   */
+  /** 下一个执行节点不存在 */
   NEXT_EXECUTE_NODE_NO_EXIST("NEXT_EXECUTE_NODE_NO_EXIST", "下一个执行节点不存在"),
 
-  /**
-   * 业务内部异常
-   */
+  /** 业务内部异常 */
   BIZ_INNER_EXCEPTION("BIZ_INNER_EXCEPTION", "业务内部异常"),
 
-  /**
-   * 流程节点运行中
-   */
+  /** 流程节点运行中 */
   NODE_RUNNING("NODE_RUNNING", "流程节点运行中"),
   ;
 

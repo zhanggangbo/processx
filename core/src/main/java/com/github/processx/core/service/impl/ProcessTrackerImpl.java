@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core.service.impl;
 
 import com.github.processx.core.service.ProcessTracker;
@@ -19,8 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ProcessTrackerImpl implements ProcessTracker {
 
   /** 流程实例DAO接口 */
-  @Autowired
-  private ProcessInstanceDOMapper processInstanceDOMapper;
+  @Autowired private ProcessInstanceDOMapper processInstanceDOMapper;
 
   /**
    * 流程开始

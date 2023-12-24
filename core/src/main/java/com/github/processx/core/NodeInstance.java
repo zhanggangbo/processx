@@ -20,6 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class NodeInstance {
+
   /** 业务流水号 */
   private String bizNo;
 
@@ -48,9 +49,7 @@ public class NodeInstance {
   /** 最大执行时间 */
   private Integer maxExeTime;
 
-  /**
-   * 是否同步 isSync为false流程引擎执行到该节点的时候，会另起一个线程执行后续节点，当前线程返回
-   */
+  /** 是否同步 isSync为false流程引擎执行到该节点的时候，会另起一个线程执行后续节点，当前线程返回 */
   private Boolean isSync;
 
   /** 是否被保护 isProtected为false流程引擎执行到该节点无论节点什么状态都会重新执行 */
@@ -103,9 +102,7 @@ public class NodeInstance {
     this.preNodeInstanceList.add(NodeInstance);
   }
 
-  /**
-   * 节点是否另起一个线程执行
-   */
+  /** 节点是否另起一个线程执行 */
   public boolean executeByNewThread() {
     if (!isSync || nodeType == NodeTypeEnum.TRIGGER || nodeType == NodeTypeEnum.SCHEDULE) {
       return true;

@@ -1,6 +1,4 @@
-/**
- * GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved.
- */
+/** GitHub. Inc. Copyright (c) 2018-2019 All Rights Reserved. */
 package com.github.processx.core.schedule.impl;
 
 import com.github.processx.common.util.DateUtil;
@@ -19,9 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @version v 0.1 2019/9/2 23:30
  */
 public class SchedulePlanServiceImpl implements SchedulePlanService {
+
   /** DAO接口 */
-  @Autowired
-  private ProcessSchedulePlanDOMapper processSchedulePlanDOMapper;
+  @Autowired private ProcessSchedulePlanDOMapper processSchedulePlanDOMapper;
 
   /**
    * 捞取执行时间小于当前时间的定时任务
@@ -44,14 +42,14 @@ public class SchedulePlanServiceImpl implements SchedulePlanService {
    */
   @Override
   public boolean addOrUpdateSchedulePlan(
-    Long processInstanceId, String bizNo, Long nodeId, int period) {
+      Long processInstanceId, String bizNo, Long nodeId, int period) {
     ProcessSchedulePlanDO record = new ProcessSchedulePlanDO();
     record.setBizNo(bizNo);
     record.setNodeId(nodeId);
     record.setProcessInstanceId(processInstanceId);
 
     ProcessSchedulePlanDO schedulePlan =
-      processSchedulePlanDOMapper.selectSchedulePlan(bizNo, nodeId);
+        processSchedulePlanDOMapper.selectSchedulePlan(bizNo, nodeId);
 
     if (schedulePlan == null) {
       record.setExecCounts(0);
@@ -86,9 +84,9 @@ public class SchedulePlanServiceImpl implements SchedulePlanService {
    */
   @Override
   public boolean moditySchedulePlanupdateRunningModifiedTime4Lock(
-    String bizNo, Long nodeId, Date modifiedTime) {
+      String bizNo, Long nodeId, Date modifiedTime) {
     return processSchedulePlanDOMapper.updateRunningModifiedTime4Lock(bizNo, nodeId, modifiedTime)
-      > 0;
+        > 0;
   }
 
   /**

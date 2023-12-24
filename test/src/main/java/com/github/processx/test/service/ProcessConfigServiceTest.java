@@ -28,8 +28,7 @@ public class ProcessConfigServiceTest extends AbstractTestBase {
 
   @Autowired private ProcessConfigService processConfigService;
 
-  @Autowired
-  private ProcessEngine processEngine;
+  @Autowired private ProcessEngine processEngine;
 
   @Test
   public void testGetAllProcessDefinition() throws InterruptedException {

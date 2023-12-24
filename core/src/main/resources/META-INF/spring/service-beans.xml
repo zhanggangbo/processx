@@ -1,57 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
 			http://www.springframework.org/schema/beans
 			http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
-  <bean id="processEngine"
-    class="com.github.processx.core.ProcessEngineImpl"/>
+    <bean id="processEngine"
+          class="com.github.processx.core.ProcessEngineImpl"/>
 
-  <bean id="beanFactoryUtil" class="com.github.processx.core.util.BeanFactoryUtil"
-    factory-method="getInstance"/>
+    <bean id="beanFactoryUtil" class="com.github.processx.core.util.BeanFactoryUtil"
+          factory-method="getInstance"/>
 
-  <bean id="processLoader" class="com.github.processx.core.ProcessLoader"/>
+    <bean id="processLoader" class="com.github.processx.core.ProcessLoader"/>
 
-  <bean id="processConfigService"
-    class="com.github.processx.core.service.impl.ProcessConfigServiceImpl"/>
+    <bean id="processConfigService"
+          class="com.github.processx.core.service.impl.ProcessConfigServiceImpl"/>
 
-  <bean id="runtimeService"
-    class="com.github.processx.core.service.impl.RuntimeServiceImpl"/>
+    <bean id="runtimeService"
+          class="com.github.processx.core.service.impl.RuntimeServiceImpl"/>
 
-  <bean id="processTracker"
-    class="com.github.processx.core.service.impl.ProcessTrackerImpl"/>
+    <bean id="processTracker"
+          class="com.github.processx.core.service.impl.ProcessTrackerImpl"/>
 
-  <bean id="aynNodeExecutor"
-    class="com.github.processx.core.executor.AynNodeExecutor"/>
+    <bean id="aynNodeExecutor"
+          class="com.github.processx.core.executor.AynNodeExecutor"/>
 
-  <bean id="synNodeExecutor"
-    class="com.github.processx.core.executor.SynNodeExecutor"/>
+    <bean id="synNodeExecutor"
+          class="com.github.processx.core.executor.SynNodeExecutor"/>
 
-  <bean id="nodeEventHandle"
-    class="com.github.processx.core.handle.NodeEventHandle"/>
+    <bean id="nodeEventHandle"
+          class="com.github.processx.core.handle.NodeEventHandle"/>
 
-  <bean id="processInnerEventHandle"
-    class="com.github.processx.core.handle.ProcessInnerEventHandle"/>
+    <bean id="processInnerEventHandle"
+          class="com.github.processx.core.handle.ProcessInnerEventHandle"/>
 
-  <bean id="eventListener"
-    class="com.github.processx.core.listener.EventListenerImpl"/>
+    <bean id="eventListener"
+          class="com.github.processx.core.listener.EventListenerImpl"/>
 
-  <bean id="nodeLock"
-    class="com.github.processx.core.lock.NodeLockImpl"/>
+    <bean id="nodeLock"
+          class="com.github.processx.core.lock.NodeLockImpl"/>
 
-  <bean id="schedulePlanService"
-    class="com.github.processx.core.schedule.impl.SchedulePlanServiceImpl"/>
+    <bean id="schedulePlanService"
+          class="com.github.processx.core.schedule.impl.SchedulePlanServiceImpl"/>
 
-  <bean id="schedulePlanLock"
-    class="com.github.processx.core.schedule.lock.SchedulePlanLock"/>
+    <bean id="schedulePlanLock"
+          class="com.github.processx.core.schedule.lock.SchedulePlanLock"/>
 
-  <bean id="synProcessExecutor"
-    class="com.github.processx.core.executor.SynProcessExecutor"/>
+    <bean id="synProcessExecutor"
+          class="com.github.processx.core.executor.SynProcessExecutor"/>
 
-  <bean id="processTriggerResultHandler"
-    class="com.github.processx.core.ProcessTriggerResultHandler"/>
-
-
+    <bean id="processTriggerResultHandler"
+          class="com.github.processx.core.ProcessTriggerResultHandler"/>
 </beans>
 

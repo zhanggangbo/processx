@@ -41,10 +41,10 @@ import org.apache.logging.log4j.Logger;
 @Getter
 @Setter
 public class ProcessInstance {
-  /**
-   * 日志记录
-   */
+
+  /** 日志记录 */
   private static final Logger LOGGER = LogManager.getLogger(ProcessInstance.class);
+
   /** 业务流水号 */
   private String bizNo;
 
@@ -66,9 +66,7 @@ public class ProcessInstance {
   /** 开始节点 or 初始节点 */
   private NodeInstance startNode;
 
-  /**
-   * 结束节点
-   */
+  /** 结束节点 */
   private NodeInstance endNode;
 
   /** 当前节点 */
@@ -166,10 +164,10 @@ public class ProcessInstance {
     try {
       if (!nodeLock.getLock(
           processInstanceId,
-        currentNode.getNodeId(),
-        bizNo,
-        currentNode.getIsProtected(),
-        processFeature)) {
+          currentNode.getNodeId(),
+          bizNo,
+          currentNode.getIsProtected(),
+          processFeature)) {
         // TODO 日志记录
         nodeEvent = AutoNodeEvent.createRunningEvent();
       } else {
@@ -200,10 +198,10 @@ public class ProcessInstance {
     try {
       if (!nodeLock.getLock(
           processInstanceId,
-        currentNode.getNodeId(),
-        bizNo,
-        currentNode.getIsProtected(),
-        processFeature)) {
+          currentNode.getNodeId(),
+          bizNo,
+          currentNode.getIsProtected(),
+          processFeature)) {
         // TODO 日志记录
         nodeEvent = TriggerNodeEvent.createRunningEvent();
       } else {
@@ -234,10 +232,10 @@ public class ProcessInstance {
     try {
       if (!nodeLock.getLock(
           processInstanceId,
-        currentNode.getNodeId(),
-        bizNo,
-        currentNode.getIsProtected(),
-        processFeature)) {
+          currentNode.getNodeId(),
+          bizNo,
+          currentNode.getIsProtected(),
+          processFeature)) {
         // TODO 日志记录
         nodeEvent = GatewayNodeEvent.createRunningEvent();
       } else {
@@ -291,7 +289,7 @@ public class ProcessInstance {
 
     if (NodeTypeEnum.SCHEDULE != currentNode.getNodeType()) {
       throw new ProcessxException(
-        ProcessxResultEnum.ILLEGAL_PROCESS_NODE_TYPE, "此节点非定时节点，nodeName=" + nodeName);
+          ProcessxResultEnum.ILLEGAL_PROCESS_NODE_TYPE, "此节点非定时节点，nodeName=" + nodeName);
     }
 
     ScheduleExecution executeCompoment = (ScheduleExecution) currentNode.getExecuteCompoment();
@@ -303,16 +301,16 @@ public class ProcessInstance {
 
     try {
       if (!nodeLock.getLock(
-        processInstanceId,
-        currentNode.getNodeId(),
-        bizNo,
-        currentNode.getIsProtected(),
-        processFeature)) {
+          processInstanceId,
+          currentNode.getNodeId(),
+          bizNo,
+          currentNode.getIsProtected(),
+          processFeature)) {
         // TODO 日志记录
         nodeEvent = ScheduleNodeEvent.createRunningEvent();
       } else {
         nodeContext =
-          buildNodeContext(processInstanceId, currentNode.getNodeId(), bizNo, processFeature);
+            buildNodeContext(processInstanceId, currentNode.getNodeId(), bizNo, processFeature);
 
         LoggerUtil.info(LOGGER, "nodeContext============={0}", nodeContext);
         nodeEvent = currentNode.execute(nodeContext);
@@ -320,11 +318,11 @@ public class ProcessInstance {
         LoggerUtil.info(LOGGER, "nodeEvent============={0}", nodeEvent.getEventType());
 
         if (nodeEvent.getEventType() == NodeEventTypeEnum.SUCCESS
-          || nodeEvent.getEventType() == NodeEventTypeEnum.TERMINAL) {
+            || nodeEvent.getEventType() == NodeEventTypeEnum.TERMINAL) {
 
           result.setExecResult(true);
           result.setReachMaxCount(
-            nodeContext.getExecCount() + 1 > executeCompoment.getMaxExecCount());
+              nodeContext.getExecCount() + 1 > executeCompoment.getMaxExecCount());
         }
       }
 
@@ -356,7 +354,7 @@ public class ProcessInstance {
    * @return
    */
   private NodeContext buildNodeContext(
-    Long processInstanceId, Long nodeId, String bizNo, ProcessFeature processFeature) {
+      Long processInstanceId, Long nodeId, String bizNo, ProcessFeature processFeature) {
     NodeContext context = new NodeContext();
     if (!processFeature.getRecordNodeInstance()) {
       return context;

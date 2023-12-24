@@ -11,6 +11,7 @@ import java.util.Map;
  * @version v 0.1 2019/7/25 21:57
  */
 public interface ProcessConfigService {
+
   /**
    * 获取所有流程配置信息
    *
